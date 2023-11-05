@@ -1,11 +1,10 @@
 #pragma once
 
-#include "parser/inc/argument_exception.hpp"
-#include "parser/inc/config.hpp"
+#include "parser/argument_exception.hpp"
+#include "parser/config.hpp"
 #include <cxxopts.hpp>
-#include <optional>
 
-namespace stegan
+namespace fict_tele
 {
 class CliParser
 {
@@ -19,4 +18,4 @@ class CliParser
 
     cxxopts::Options options;
 };
-} // namespace stegan
+}

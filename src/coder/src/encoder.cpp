@@ -1,10 +1,10 @@
-#include "coder/inc/encoder.hpp"
-#include "coder/inc/defs.hpp"
-#include "coder/inc/encode_exception.hpp"
-#include "coder/inc/util.hpp"
+#include "coder/encoder.hpp"
+#include "coder/defs.hpp"
+#include "coder/encode_exception.hpp"
+#include "coder/util.hpp"
 #include "util/types.hpp"
 
-namespace stegan
+namespace fict_tele
 {
 
 Encoder::Encoder(const std::span<Byte>& data, const int bitsPerChannel)
@@ -46,10 +46,10 @@ void Encoder::encodeByte(const Byte byte)
     while (shift >= 0)
     {
         const auto bits = (byte >> shift) & mask;
-        (*iterator) = *iterator & ~mask | bits;
+        (*iterator) = (*iterator & ~mask) | bits;
         ++iterator;
         shift -= bitsPerChannel;
     }
 }
 
-} // namespace stegan
+}

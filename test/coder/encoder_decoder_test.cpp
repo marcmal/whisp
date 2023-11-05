@@ -1,11 +1,9 @@
-#include "coder/inc/decoder.hpp"
-#include "coder/inc/encoder.hpp"
-#include "gtest/gtest.h"
+#include "coder/decoder.hpp"
+#include "coder/encoder.hpp"
 #include <CImg.h>
 #include <gtest/gtest.h>
-#include <iterator>
 
-namespace stegan
+namespace fict_tele
 {
 
 using BitsPerChannel = int;

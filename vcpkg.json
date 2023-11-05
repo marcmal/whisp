@@ -1,0 +1,8 @@
+{
+    "name": "fictional-telegram",
+    "dependencies": [
+      "gtest",
+      "cxxopts",
+      "cimg"
+    ]
+  }

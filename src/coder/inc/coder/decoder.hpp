@@ -4,7 +4,7 @@
 #include <span>
 #include <vector>
 
-namespace stegan
+namespace fict_tele
 {
 
 class Decoder
@@ -21,4 +21,5 @@ class Decoder
     const int bitsPerChannel;
     std::span<Byte>::iterator iterator;
 };
+
 }

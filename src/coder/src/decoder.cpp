@@ -1,11 +1,8 @@
-#include "coder/inc/decoder.hpp"
-#include "coder/inc/defs.hpp"
-#include "coder/inc/util.hpp"
-#include <bitset>
-#include <iostream>
-#include <string>
+#include "coder/decoder.hpp"
+#include "coder/defs.hpp"
+#include "coder/util.hpp"
 
-namespace stegan
+namespace fict_tele
 {
 
 Decoder::Decoder(const std::span<Byte>& data, const int bitsPerChannel)
@@ -31,8 +28,6 @@ std::vector<Byte> Decoder::decode()
 
 std::size_t Decoder::decodeSize()
 {
-    const auto mask = createMask(bitsPerChannel);
-
     std::size_t size{};
 
     for (auto i = 1; i <= NUM_BYTES_MSG_LENGTH; i++)

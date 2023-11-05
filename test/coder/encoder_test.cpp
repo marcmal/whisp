@@ -1,17 +1,18 @@
-#include "coder/inc/defs.hpp"
-#include "coder/inc/encode_exception.hpp"
-#include "coder/inc/encoder.hpp"
-#include "coder/inc/util.hpp"
+#include "coder/defs.hpp"
+#include "coder/encode_exception.hpp"
+#include "coder/encoder.hpp"
+#include "coder/util.hpp"
 #include <CImg.h>
 #include <gtest/gtest.h>
 
-namespace stegan
+namespace fict_tele
 {
 
 class EncoderTestSuite : public testing::Test
 {
   public:
-    EncoderTestSuite() : image(4, 4, 1, 3, {}), iterator{image}, bitsPerChannel{}
+    EncoderTestSuite()
+        : data(32), span{data.begin(), data.end()}, iterator{span.begin()}, bitsPerChannel{}
     {
     }
 
@@ -33,8 +34,8 @@ class EncoderTestSuite : public testing::Test
         }
     }
 
-    cimg_library::CImg<Byte> image;
-    std::span<Byte> span{image.begin(), image.end()};
+    std::vector<Byte> data;
+    std::span<Byte> span;
     std::span<Byte>::iterator iterator;
     int bitsPerChannel;
 };
@@ -44,7 +45,7 @@ TEST_F(EncoderTestSuite, Encode2Bits)
     const std::vector<Byte> message{'x', 'y', 'z'};
     bitsPerChannel = 2;
 
-    Encoder encoder{image, bitsPerChannel};
+    Encoder encoder{span, bitsPerChannel};
     encoder.encode(message);
 
     // Message length = 3 bytes (encoded on 32 bits) = 0b00000000'00000000'00000000'00000011
@@ -54,11 +55,11 @@ TEST_F(EncoderTestSuite, Encode2Bits)
 
     for (int i = 0; i < 15; i++)
     {
-        EXPECT_EQ(*iterator++, (Byte){0b0000'0000});
+        EXPECT_EQ(*iterator++, Byte{0b0000'0000});
     }
 
     // Message Size
-    EXPECT_EQ(*iterator++, (Byte){0b0000'0011});
+    EXPECT_EQ(*iterator++, Byte{0b0000'0011});
     verifyMessageEncoded(message);
 }
 
@@ -67,7 +68,7 @@ TEST_F(EncoderTestSuite, Encode4Bits)
     const std::vector<Byte> message{'w', 'o', 'l', 'f'};
     bitsPerChannel = 4;
 
-    Encoder encoder{image, bitsPerChannel};
+    Encoder encoder{span, bitsPerChannel};
     encoder.encode(message);
 
     // Message length = 4 bytes (encoded on 32 bits) = 0b00000000'00000000'00000000'00000100
@@ -77,11 +78,11 @@ TEST_F(EncoderTestSuite, Encode4Bits)
 
     for (int i = 0; i < 7; i++)
     {
-        EXPECT_EQ(*iterator++, (Byte){0b0000'0000});
+        EXPECT_EQ(*iterator++, Byte{0b0000'0000});
     }
 
     // Message Size
-    EXPECT_EQ(*iterator++, (Byte){0b0000'0100});
+    EXPECT_EQ(*iterator++, Byte{0b0000'0100});
     verifyMessageEncoded(message);
 }
 
@@ -90,7 +91,7 @@ TEST_F(EncoderTestSuite, TooLongMessage)
     const std::vector<Byte> message(30);
     bitsPerChannel = 2;
 
-    Encoder encoder{image, bitsPerChannel};
+    Encoder encoder{span, bitsPerChannel};
     EXPECT_THROW(encoder.encode(message), EncodeException);
 }
 

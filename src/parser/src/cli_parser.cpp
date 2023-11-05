@@ -1,11 +1,11 @@
-#include "parser/inc/cli_parser.hpp"
-#include "parser/inc/argument_exception.hpp"
-#include "parser/inc/config.hpp"
+#include "parser/cli_parser.hpp"
+#include "parser/argument_exception.hpp"
+#include "parser/config.hpp"
 #include <iostream>
 
-namespace stegan
+namespace fict_tele
 {
-CliParser::CliParser() : options{"Stegan", ""}
+CliParser::CliParser() : options{"Fictional Telegram", ""}
 {
     // clang-format off
   options.add_options()
@@ -36,7 +36,6 @@ void CliParser::validateArgs(const cxxopts::ParseResult& parseResult) const
 {
     const auto encodeArgCount = parseResult.count("encode");
     const auto decodeArgCount = parseResult.count("decode");
-    const auto imgArgCount = parseResult.count("image");
     const auto msgArgCount = parseResult.count("file");
     const auto bitsPerChannel = parseResult["bits"].as<int>();
 

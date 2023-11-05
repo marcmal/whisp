@@ -1,6 +1,6 @@
 #pragma once
 
-namespace stegan
+namespace fict_tele
 {
 constexpr auto BITS_IN_BYTE = 8;
 constexpr auto NUM_BYTES_MSG_LENGTH = 4;

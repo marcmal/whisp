@@ -2,10 +2,9 @@
 
 #include <filesystem>
 #include <optional>
-#include <string>
 #include <variant>
 
-namespace stegan
+namespace fict_tele
 {
 namespace config
 {

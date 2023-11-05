@@ -1,0 +1,44 @@
+{
+    "version": 4,
+    "configurePresets": [
+        {
+            "name": "base",
+            "toolchainFile": "~/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "hidden": true,
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Werror",
+                "CMAKE_CXX_STANDARD": "20"
+            },
+            "binaryDir": "${sourceDir}/build"
+        },
+        {
+            "name": "release",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "debug",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "coverage",
+            "inherits": "debug",
+            "cacheVariables": {
+                "COVERAGE": "ON"
+            }
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        }
+    ]
+}

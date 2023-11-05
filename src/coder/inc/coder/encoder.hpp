@@ -4,7 +4,7 @@
 #include <span>
 #include <vector>
 
-namespace stegan
+namespace fict_tele
 {
 
 class Encoder

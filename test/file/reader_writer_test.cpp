@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <gtest/gtest.h>
 
-namespace stegan
+namespace fict_tele
 {
 
 class ReaderWriterTest : public testing::Test

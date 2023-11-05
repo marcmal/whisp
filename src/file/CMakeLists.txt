@@ -1,6 +1,5 @@
-set(SOURCE_FILES src/reader.cpp src/writer.cpp)
-
-add_library(file-lib ${SOURCE_FILES})
+add_library(file-lib src/reader.cpp src/writer.cpp)
+target_link_libraries(file-lib PUBLIC util-lib)
 
 target_include_directories(
     file-lib

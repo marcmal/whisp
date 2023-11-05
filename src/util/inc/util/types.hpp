@@ -1,6 +1,6 @@
 #pragma once
 
-namespace stegan
+namespace fict_tele
 {
 using Byte = unsigned char;
 }
