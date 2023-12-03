@@ -1,5 +1,5 @@
-#include "file/inc/reader.hpp"
-#include "file/inc/writer.hpp"
+#include "file/reader.hpp"
+#include "file/writer.hpp"
 #include <filesystem>
 #include <gtest/gtest.h>
 

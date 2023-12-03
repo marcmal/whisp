@@ -18,7 +18,8 @@ CliParser::CliParser() : options{"Fictional Telegram", ""}
     // clang-format on
 }
 
-Config CliParser::parse(const int argc, const char* const argv[])
+Config CliParser::parse(const int argc,
+                        const char* const argv[]) // NOLINT(cppcoreguidelines-avoid-c-arrays)
 {
     const auto result = options.parse(argc, argv);
 

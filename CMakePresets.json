@@ -33,6 +33,13 @@
             "cacheVariables": {
                 "COVERAGE": "ON"
             }
+        },
+        {
+            "name": "lint",
+            "inherits": "debug",
+            "cacheVariables": {
+                "LINT": "ON"
+            }
         }
     ],
     "testPresets": [

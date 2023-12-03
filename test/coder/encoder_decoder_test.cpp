@@ -1,6 +1,5 @@
 #include "coder/decoder.hpp"
 #include "coder/encoder.hpp"
-#include <CImg.h>
 #include <gtest/gtest.h>
 
 namespace fict_tele
@@ -11,7 +10,7 @@ using BitsPerChannel = int;
 class EncoderDecoderTestSuite : public testing::TestWithParam<BitsPerChannel>
 {
   public:
-    EncoderDecoderTestSuite() : image(64, 64, 1, 3, {})
+    EncoderDecoderTestSuite() : data(64 * 64 * 3)
     {
     }
 
@@ -20,20 +19,22 @@ class EncoderDecoderTestSuite : public testing::TestWithParam<BitsPerChannel>
         std::vector<Byte> buffer;
         std::transform(expectedMessage.begin(), expectedMessage.end(), std::back_inserter(buffer),
                        [](const auto c) { return c; });
-        Encoder encoder{image, bitsPerChannel};
+        Encoder encoder{data, bitsPerChannel};
 
-        encoder.encode(buffer);
+        encoder.encode(buffer, expectedFilename);
 
-        Decoder decoder{image, bitsPerChannel};
-        const auto decoded = decoder.decode();
+        Decoder decoder{data, bitsPerChannel};
+        const auto [decodedFilename, decodedData] = decoder.decode();
 
-        std::string decodedMessage{decoded.begin(), decoded.end()};
+        std::string decodedMessage{decodedData.begin(), decodedData.end()};
         EXPECT_EQ(decodedMessage, expectedMessage);
+        EXPECT_EQ(decodedFilename, expectedFilename);
     }
 
   protected:
-    cimg_library::CImg<unsigned char> image;
+    std::vector<Byte> data;
 
+    const std::string expectedFilename = "secret.png";
     const std::string expectedMessage =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt "
         "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "

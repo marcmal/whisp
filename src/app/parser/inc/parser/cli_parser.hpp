@@ -10,7 +10,8 @@ class CliParser
 {
   public:
     CliParser();
-    Config parse(const int argc, const char* const argv[]);
+    Config parse(const int argc,
+                 const char* const argv[]); // NOLINT(cppcoreguidelines-avoid-c-arrays)
 
   private:
     void validateArgs(const cxxopts::ParseResult& parseResult) const;

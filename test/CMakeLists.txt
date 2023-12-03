@@ -22,17 +22,22 @@ add_executable(file_test file/reader_writer_test.cpp)
 target_link_libraries(file_test PRIVATE file-lib GTest::GTest GTest::gtest_main)
 add_test(NAME FileTest COMMAND file_test)
 
+add_executable(app_test app/app_test.cpp)
+target_link_libraries(app_test PRIVATE app GTest::GTest)
+add_test(NAME AppTest COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app)
+
 add_custom_target(tests)
-add_dependencies(tests parser_test coder_test file_test)
+add_dependencies(tests parser_test coder_test file_test app_test)
 
 if (COVERAGE)
   enable_coverage(parser-lib)
   enable_coverage(coder-lib)
   enable_coverage(file-lib)
+  enable_coverage(app)
 
   add_custom_target(coverage 
                     COMMAND ctest --test-dir ${CMAKE_BINARY_DIR}
-                    COMMAND gcovr --exclude test
+                    COMMAND gcovr --exclude test --exclude ${CMAKE_BINARY_DIR}/vcpkg_installed
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                     )
   add_dependencies(coverage tests)
