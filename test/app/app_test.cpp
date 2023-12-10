@@ -19,14 +19,13 @@ class AppIntegrationTest : public testing::Test
   public:
     AppIntegrationTest()
     {
+        clean();
         std::filesystem::copy_file(secret, input);
     }
 
     ~AppIntegrationTest() override
     {
-        std::filesystem::remove(input);
-        std::filesystem::remove(encoded);
-        std::filesystem::remove(decoded);
+        clean();
     }
 
   protected:
@@ -50,6 +49,13 @@ class AppIntegrationTest : public testing::Test
 
         return std::equal(std::istreambuf_iterator<char>(f1.rdbuf()), std::istreambuf_iterator<char>(),
                           std::istreambuf_iterator<char>(f2.rdbuf()));
+    }
+
+    void clean()
+    {
+        std::filesystem::remove(input);
+        std::filesystem::remove(encoded);
+        std::filesystem::remove(decoded);
     }
 
     App app{};

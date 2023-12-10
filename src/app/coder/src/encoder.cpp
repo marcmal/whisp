@@ -3,7 +3,6 @@
 #include "coder/encode_exception.hpp"
 #include "coder/util.hpp"
 #include "util/types.hpp"
-#include <iostream>
 
 namespace fict_tele
 {

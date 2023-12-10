@@ -23,4 +23,3 @@ add_subdirectory(test)
 # Setup tools                     #
 ###################################
 include(cmake/clang-format.cmake)
-include(cmake/clang-tidy.cmake)

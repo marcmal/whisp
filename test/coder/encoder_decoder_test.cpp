@@ -49,6 +49,6 @@ TEST_P(EncoderDecoderTestSuite, EncodeDecode)
     testEncodeDecode(GetParam());
 }
 
-INSTANTIATE_TEST_CASE_P(EncodeDecodeTests, EncoderDecoderTestSuite, testing::Values(1, 2, 4));
+INSTANTIATE_TEST_SUITE_P(EncodeDecodeTests, EncoderDecoderTestSuite, testing::Values(1, 2, 4));
 
 }

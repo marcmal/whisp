@@ -8,5 +8,10 @@ target_include_directories(
 
 if (LINT)
     include(${CMAKE_SOURCE_DIR}/cmake/clang-tidy.cmake)
-    setup_clang_tidy(coder-lib ${SOURCES})
+    setup_clang_tidy(coder-lib)
+endif()
+
+if (SANITIZERS_ENABLE)
+    include(${CMAKE_SOURCE_DIR}/cmake/sanitizers.cmake)
+    setup_sanitizers(coder-lib) 
 endif()

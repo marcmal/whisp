@@ -1,7 +1,6 @@
 #include "coder/decoder.hpp"
 #include "coder/defs.hpp"
 #include "coder/util.hpp"
-#include <iostream>
 
 namespace fict_tele
 {
