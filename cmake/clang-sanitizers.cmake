@@ -1,5 +1,0 @@
-function(setup_sanitizers target)
-  target_compile_options(${target} PUBLIC -fsanitize=address)
-  target_link_options(${target} BEFORE PUBLIC -fsanitize=address)
-  message(STATUS "🟢 configured sanitizers for ${target} target.")
-endfunction()

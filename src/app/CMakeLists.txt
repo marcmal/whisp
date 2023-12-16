@@ -1,7 +1,7 @@
-add_subdirectory(coder)
-add_subdirectory(parser)
-add_subdirectory(file)
-add_subdirectory(util)
+add_subdirectory(src/util)
+add_subdirectory(src/coder)
+add_subdirectory(src/parser)
+add_subdirectory(src/file)
 
 add_library(app src/app.cpp)
 target_link_libraries(app PRIVATE coder-lib parser-lib file-lib)
@@ -15,8 +15,8 @@ target_include_directories(
     app
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
-if (LINT)
-    include(${CMAKE_SOURCE_DIR}/cmake/clang-tidy.cmake)
+if (ANALYSIS_ENABLE)
+    include(${CMAKE_SOURCE_DIR}/cmake/analysis.cmake)
     setup_clang_tidy(app)
 endif()
 

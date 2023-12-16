@@ -7,8 +7,8 @@ target_include_directories(
     parser-lib
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
-if (LINT)
-    include(${CMAKE_SOURCE_DIR}/cmake/clang-tidy.cmake)
+if (ANALYSIS_ENABLE)
+    include(${CMAKE_SOURCE_DIR}/cmake/analysis.cmake)
     setup_clang_tidy(parser-lib)
 endif()
 

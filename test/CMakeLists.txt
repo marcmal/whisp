@@ -1,10 +1,5 @@
 find_package(GTest REQUIRED)
-
-function(enable_coverage name)
-  target_compile_options(${name} PUBLIC --coverage)
-  target_link_libraries(${name} PRIVATE gcov)
-endfunction()
-
+include(${CMAKE_SOURCE_DIR}/cmake/coverage.cmake)
 
 add_executable(parser_test parser/cli_parser_test.cpp)
 target_link_libraries(parser_test PRIVATE parser-lib GTest::GTest GTest::gtest_main)
@@ -29,11 +24,12 @@ add_test(NAME AppTest COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app)
 add_custom_target(tests)
 add_dependencies(tests parser_test coder_test file_test app_test)
 
-if (COVERAGE)
+if (COVERAGE_ENABLE)
   enable_coverage(parser-lib)
   enable_coverage(coder-lib)
   enable_coverage(file-lib)
   enable_coverage(app)
+  enable_coverage(fictional-telegram)
 
   add_custom_target(coverage 
                     COMMAND ctest --test-dir ${CMAKE_BINARY_DIR}
