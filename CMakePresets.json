@@ -1,84 +1,16 @@
 {
-    "version": 4,
-    "configurePresets": [
-        {
-            "name": "default",
-            "toolchainFile": "~/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
-            "generator": "Ninja",
-            "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Werror",
-                "CMAKE_CXX_STANDARD": "20",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
-            },
-            "binaryDir": "${sourceDir}/build/"
-        },
-        {
-            "name": "clang-debug",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "clang-release",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "gcc-debug",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "gcc-release",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "coverage",
-            "inherits": "gcc-debug",
-            "cacheVariables": {
-                "COVERAGE_ENABLE": "ON"
-            }
-        },
-        {
-            "name": "analysis",
-            "inherits": "clang-debug",
-            "cacheVariables": {
-                "ANALYSIS_ENABLE": "ON"
-            }
-        },
-        {
-            "name": "sanitizers",
-            "inherits": "clang-debug",
-            "cacheVariables": {
-                "SANITIZERS_ENABLE": "ON"
-            }
-        }
-    ],
-    "buildPresets": [
-        {
-            "name": "default",
-            "configurePreset": "default"
-        }
-    ],
-    "testPresets": [
-        {
-            "name": "default",
-            "configurePreset": "default",
-            "output": {
-                "outputOnFailure": true
-            }
-        }
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "include": [
+        "cmake/presets/x64-linux-gcc.json",
+        "cmake/presets/x86-linux-gcc.json",
+        "cmake/presets/x64-linux-clang.json",
+        "cmake/presets/x64-linux-gcc.json",
+        "cmake/presets/x64-windows-clang.json",
+        "cmake/presets/x64-windows-msvc.json"
     ]
 }

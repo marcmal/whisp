@@ -1,5 +1,0 @@
-function(enable_coverage target)
-  target_compile_options(${target} PUBLIC --coverage)
-  target_link_libraries(${target} PRIVATE gcov)
-  message(STATUS "🟢 coverage enabled on ${target} target.")
-endfunction()

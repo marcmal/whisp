@@ -1,17 +1,11 @@
-add_library(coder-lib src/encoder.cpp src/decoder.cpp)
+include(common)
+set(target coder-lib)
 
-target_link_libraries(coder-lib PUBLIC util-lib)
+add_library(${target} src/encoder.cpp src/decoder.cpp)
+set_common_target_compile_properties(${target})
+set_common_target_include_directories(${target} PUBLIC)
 
-target_include_directories(
-    coder-lib
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+target_link_libraries(${target} PUBLIC util-lib)
 
-if (ANALYSIS_ENABLE)
-    include(${CMAKE_SOURCE_DIR}/cmake/analysis.cmake)
-    setup_clang_tidy(coder-lib)
-endif()
-
-if (SANITIZERS_ENABLE)
-    include(${CMAKE_SOURCE_DIR}/cmake/sanitizers.cmake)
-    setup_sanitizers(coder-lib) 
-endif()
+setup_clang_tidy(${target})
+setup_sanitizers(${target}) 

@@ -1,2 +1,4 @@
-add_library(util-lib INTERFACE)
-target_include_directories(util-lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+include(common)
+set(target util-lib)
+add_library(${target} INTERFACE)
+set_common_target_include_directories(${target} INTERFACE)

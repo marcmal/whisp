@@ -6,13 +6,21 @@
 namespace fict_tele
 {
 
-std::string image{};
-std::string secret{};
+struct AppTestData
+{
+    std::string image{};
+    std::string secret{};
 
-std::string input{};
-std::string encoded{};
-std::string decoded{};
-const auto bitsPerChannel = "2";
+    std::string input{};
+    std::string encoded{};
+    std::string decoded{};
+    int bitsPerChannel{};
+};
+
+namespace
+{
+AppTestData TEST_DATA;
+}
 
 class AppIntegrationTest : public testing::Test
 {
@@ -20,7 +28,7 @@ class AppIntegrationTest : public testing::Test
     AppIntegrationTest()
     {
         clean();
-        std::filesystem::copy_file(secret, input);
+        std::filesystem::copy_file(TEST_DATA.secret, TEST_DATA.input);
     }
 
     ~AppIntegrationTest() override
@@ -53,9 +61,9 @@ class AppIntegrationTest : public testing::Test
 
     void clean()
     {
-        std::filesystem::remove(input);
-        std::filesystem::remove(encoded);
-        std::filesystem::remove(decoded);
+        std::filesystem::remove(TEST_DATA.input);
+        std::filesystem::remove(TEST_DATA.encoded);
+        std::filesystem::remove(TEST_DATA.decoded);
     }
 
     App app{};
@@ -65,20 +73,27 @@ TEST_F(AppIntegrationTest, EncodeDecode)
 {
     {
         const auto argc = 8;
-        const char* argv[] = {"fictional_telegram", "--encode", "--image",     image.c_str(), "--file",
-                              input.c_str(),        "--bits",   bitsPerChannel};
+        const char* argv[] = {"fictional_telegram",
+                              "--encode",
+                              "--image",
+                              TEST_DATA.image.c_str(),
+                              "--file",
+                              TEST_DATA.input.c_str(),
+                              "--bits",
+                              std::to_string(TEST_DATA.bitsPerChannel).c_str()};
         app.run(argc, argv);
     }
 
-    std::filesystem::remove(input);
+    std::filesystem::remove(TEST_DATA.input);
 
     {
         const auto argc = 6;
-        const char* argv[] = {"fictional_telegram", "--decode", "--image", encoded.c_str(), "--bits", bitsPerChannel};
+        const char* argv[] = {"fictional_telegram",      "--decode", "--image",
+                              TEST_DATA.encoded.c_str(), "--bits",   std::to_string(TEST_DATA.bitsPerChannel).c_str()};
         app.run(argc, argv);
     }
 
-    EXPECT_TRUE(compareFiles(secret, decoded));
+    EXPECT_TRUE(compareFiles(TEST_DATA.secret, TEST_DATA.decoded));
 }
 
 }
@@ -94,12 +109,13 @@ int main(int argc, char* argv[])
     }
 
     const std::string resourceDir = argv[1];
-    fict_tele::image = resourceDir + "/data/image.png";
-    fict_tele::secret = resourceDir + "/data/secret.png";
 
-    fict_tele::input = resourceDir + "/data/temp.png";
-    fict_tele::encoded = resourceDir + "/data/encoded_image.png";
-    fict_tele::decoded = resourceDir + "/data/temp.png";
+    fict_tele::TEST_DATA = {.image = resourceDir + "/data/image.png",
+                            .secret = resourceDir + "/data/secret.png",
+                            .input = resourceDir + "/data/temp.png",
+                            .encoded = resourceDir + "/data/encoded_image.png",
+                            .decoded = resourceDir + "/data/temp.png",
+                            .bitsPerChannel = 2};
 
     return RUN_ALL_TESTS();
 }

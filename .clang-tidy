@@ -2,7 +2,6 @@
 Checks:          '-*,bugprone-*,clang-diagnostic-*,clang-analyzer-*,clang-analyzer-*,cppcoreguidelines-*'
 WarningsAsErrors: '*'
 HeaderFilterRegex: 'src/*'
-AnalyzeTemporaryDtors: false
 FormatStyle:     none
 User:            marmal
 CheckOptions:

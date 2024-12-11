@@ -1,5 +1,6 @@
 #include "coder/decoder.hpp"
 #include "coder/encoder.hpp"
+#include <algorithm>
 #include <gtest/gtest.h>
 
 namespace fict_tele

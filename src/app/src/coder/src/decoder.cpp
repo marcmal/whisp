@@ -1,6 +1,7 @@
 #include "coder/decoder.hpp"
 #include "coder/defs.hpp"
 #include "coder/util.hpp"
+#include <iostream>
 
 namespace fict_tele
 {
@@ -40,6 +41,7 @@ std::vector<Byte> Decoder::decodeData(std::size_t length)
         data.push_back(byte);
     }
 
+    std::cout << "Hi!";
     return data;
 }
 
