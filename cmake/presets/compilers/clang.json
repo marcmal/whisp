@@ -1,22 +1,17 @@
 {
-  "version": 6,
-  "configurePresets": [
-    {
-      "name": "clang",
-      "hidden": true,
-      "environment": {
-        "CC": "clang",
-        "CXX": "clang++"
-      }
-    },
-    {
-      "name": "x86-clang",
-      "hidden": true,
-      "inherits": "clang",
-      "cacheVariables": {
-        "CMAKE_C_FLAGS": "-m32",
-        "CMAKE_CXX_FLAGS": "-m32"
-      }
-    }
-  ]
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "clang",
+            "hidden": true,
+            "environment": {
+                "CC": "clang",
+                "CXX": "clang++"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS_DEBUG": "-Wall -Wextra -Wpedantic -Wshadow -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor",
+                "CMAKE_CXX_FLAGS_RELEASE": "-Werror -Wall -Wextra -Wpedantic -Wshadow -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor"
+            }
+        }
+    ]
 }

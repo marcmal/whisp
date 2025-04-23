@@ -1,4 +1,4 @@
-file(GLOB_RECURSE ALL_CXX_SOURCE_FILES *.[chi]pp *.[chi]xx *.cc *.hh *.ii *.[CHI])
+file(GLOB_RECURSE ALL_CXX_SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.[ch]pp ${CMAKE_SOURCE_DIR}/test/*.[ch]pp)
 
 find_program(CLANG_FORMAT "clang-format")
 if(NOT CLANG_FORMAT)

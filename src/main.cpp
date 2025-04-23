@@ -2,6 +2,6 @@
 
 int main(int argc, char* argv[])
 {
-    fict_tele::App app;
+    whisp::App app;
     return app.run(argc, argv);
 }

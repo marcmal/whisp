@@ -1,10 +1,6 @@
 # sets default target properties
 function(set_common_target_compile_properties target)
-    target_compile_features(${target} PRIVATE cxx_std_20)
-    target_compile_options(${target} PRIVATE
-        $<$<CXX_COMPILER_ID:MSVC>:/W4>
-        $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>)
-
+    target_compile_features(${target} PRIVATE cxx_std_23)
     target_compile_options(${target} PRIVATE
         $<$<AND:$<CXX_COMPILER_ID:Clang>,$<PLATFORM_ID:Linux>>:-stdlib=libc++>)
 
@@ -12,18 +8,11 @@ function(set_common_target_compile_properties target)
         $<$<AND:$<CXX_COMPILER_ID:Clang>,$<PLATFORM_ID:Linux>>:-stdlib=libc++ -lc++abi>)
 endfunction()
 
-
-function(set_common_target_include_directories target mode)
-    target_include_directories(${target} ${mode} ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-endfunction()
-
-
 function(enable_coverage target)
   target_compile_options(${target} PUBLIC --coverage)
   target_link_libraries(${target} PUBLIC gcov)
   message(STATUS "🟢 coverage enabled on ${target} target.")
 endfunction()
-
 
 function(setup_sanitizers target)
     if (SANITIZERS_ENABLE)
@@ -36,14 +25,13 @@ function(setup_sanitizers target)
     endif()
 endfunction()
 
-
 function(setup_clang_tidy target)
     if (ANALYSIS_ENABLE)
         find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 
         set(CLANG_TIDY_OPTS "--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy")
         set(CLANG_TIDY_COMMAND ${CLANG_TIDY_EXE} ${CLANG_TIDY_OPTS})
-        
+
         set_target_properties(${target} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
         message(STATUS "🟢 clang-tidy added to ${target} target.")
     endif()
