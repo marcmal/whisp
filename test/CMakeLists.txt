@@ -32,13 +32,13 @@ set_common_target_compile_properties(app_test)
 target_link_libraries(app_test PRIVATE app GTest::GTest)
 add_test(NAME AppTest COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app)
 
-add_custom_target(ut_build DEPENDS parser_test coder_test io_test app_test)
-add_custom_target(ut_run
+add_custom_target(whisp_tests DEPENDS parser_test coder_test io_test app_test)
+add_custom_target(whisp_tests_run
     COMMAND parser_test
     COMMAND coder_test
     COMMAND io_test
     COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app
-    DEPENDS ut_build
+    DEPENDS whisp_tests
     COMMENT "Running all tests..."
 )
 
@@ -55,5 +55,5 @@ if (COVERAGE_ENABLE)
                     COMMAND gcovr --exclude test --exclude ${CMAKE_BINARY_DIR}/vcpkg_installed
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                     )
-  add_dependencies(coverage ut_run)
+  add_dependencies(coverage whisp_tests_run)
 endif()
