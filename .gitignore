@@ -16,13 +16,7 @@
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
 # Compiled Static libraries
-*.lai
-*.la
 *.a
 *.lib
 
@@ -34,3 +28,13 @@
 # Build
 build/
 vcpkg_installed/
+
+# Testing
+Testing/
+
+# IDE & Editors
+.vscode/
+compile_commands.json
+
+# Cache
+*.[Cc]ache
