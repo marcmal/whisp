@@ -1,4 +1,4 @@
-name: CI
+name: Build & Tests - linux gcc
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build-and-test:
+  build-and-test-gcc:
     runs-on: ubuntu-latest
 
     env:
@@ -29,7 +29,7 @@ jobs:
       run: cmake --preset x64-linux-gcc-dynamic
 
     - name: Build unit tests
-      run: cmake --build --preset x64-linux-gcc-dynamic --target whisp_tests
+      run: cmake --build --preset x64-linux-gcc-dynamic --config Release --target whisp_tests
 
     - name: Run unit tests
-      run: ctest --preset x64-linux-gcc-dynamic
+      run: ctest --preset x64-linux-gcc-dynamic --build-config Release

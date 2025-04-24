@@ -1,0 +1,51 @@
+name: Build & Tests - linux clang
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test-clang:
+    runs-on: ubuntu-latest
+
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Ninja
+      run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+    - name: Install Clang
+      run: |
+        sudo apt update
+        sudo apt install -y clang libc++abi-dev libc++-dev
+
+    - name: Install vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+        $VCPKG_ROOT/bootstrap-vcpkg.sh
+
+    - name: Verify Clang Version
+      run: clang++ --version
+
+    - name: Configure with CMake Preset
+      run: cmake --preset x64-linux-clang-dynamic
+
+    - name: Print vcpkg log to the console
+      if: failure()
+      run: |
+        echo "CMake Configuration failed. Printing vcpkg logs:"
+        cat /home/runner/work/whisp/whisp/vcpkg/buildtrees/detect_compiler/stdout-x64-linux-clang-dynamic.log || echo "Log not found"
+        cat /home/runner/work/whisp/whisp/vcpkg/buildtrees/detect_compiler/config-x64-linux-clang-dynamic-rel-out.log || echo "Log not found"
+        cat /home/runner/work/whisp/whisp/vcpkg/buildtrees/detect_compiler/config-x64-linux-clang-dynamic-rel-err.log || echo "Log not found"
+
+    - name: Build unit tests
+      run: cmake --build --preset x64-linux-clang-dynamic --config Release --target whisp_tests
+
+    - name: Run unit tests
+      run: ctest --preset x64-linux-clang-dynamic --build-config Release
