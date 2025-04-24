@@ -1,3 +1,6 @@
+[![Build & Tests - linux clang](https://github.com/marmal95/whisp/actions/workflows/build_test_clang.yml/badge.svg)](https://github.com/marmal95/whisp/actions/workflows/build_test_clang.yml)
+[![Build & Tests - linux gcc](https://github.com/marmal95/whisp/actions/workflows/build_test_gcc.yml/badge.svg)](https://github.com/marmal95/whisp/actions/workflows/build_test_gcc.yml)
+
 # 🕵️‍♂️ whisp - Steganography CLI Tool
 
 **whisp** is a modern C++ command-line application for hiding and extracting files inside image files using steganography techniques. It supports both **RGB LSB encoding** and **alpha-channel encoding**, and uses a clean modular design with support for unit testing, logging, and rich CLI parsing.
