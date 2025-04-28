@@ -26,7 +26,7 @@ function(setup_sanitizers target)
 endfunction()
 
 function(setup_clang_tidy target)
-    if (ANALYSIS_ENABLE)
+  if (CLANG_TIDY_ENABLE)
         find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 
         set(CLANG_TIDY_OPTS "--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy")

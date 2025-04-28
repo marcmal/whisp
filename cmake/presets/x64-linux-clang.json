@@ -26,6 +26,16 @@
                 "BUILD_SHARED_LIBS": true,
                 "VCPKG_TARGET_TRIPLET": "x64-linux-clang-dynamic"
             }
+        },
+        {
+            "name": "x64-linux-clang-tidy",
+            "inherits": "x64-linux-clang-dynamic",
+            "displayName": "x64 linux clang tidy",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": true,
+                "VCPKG_TARGET_TRIPLET": "x64-linux-clang-dynamic",
+                "CLANG_TIDY_ENABLE": "ON"
+            }
         }
     ],
     "buildPresets": [
@@ -38,6 +48,11 @@
             "name": "x64-linux-clang-dynamic",
             "inherits": "base",
             "configurePreset": "x64-linux-clang-dynamic"
+        },
+        {
+            "name": "x64-linux-clang-tidy",
+            "inherits": "base",
+            "configurePreset": "x64-linux-clang-tidy"
         }
     ],
     "testPresets": [

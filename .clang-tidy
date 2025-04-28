@@ -19,7 +19,7 @@ Checks: >
   -modernize-use-default-member-init,
   -modernize-concat-nested-namespaces
 
-WarningsAsErrors: ''
+WarningsAsErrors: '*'
 
 CheckOptions:
   - key:             modernize-use-nullptr.NullMacros

@@ -91,7 +91,7 @@ ctest --preset <PRESET_NAME>
 
 You can enable advanced tooling and analysis with the following options when configuring with CMake:
 
-- `-DANALYSIS_ENABLE=ON` – Enables **clang-tidy** analysis on all targets
+- `-DCLANG_TIDY_ENABLE=ON` – Enables **clang-tidy** analysis on all targets
 - `-DSANITIZERS_ENABLE=ON` – Enables **runtime sanitizers** (ASan, UBSan, etc.)
 - `-DCOVERAGE_ENABLE=ON` – Enables **code coverage** for unit tests and adds a `coverage` target
 
