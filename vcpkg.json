@@ -1,5 +1,5 @@
 {
-  "name": "fictional-telegram",
+  "name": "whisp",
   "dependencies": [
     "gtest",
     "cli11",
@@ -7,5 +7,5 @@
     "libpng",
     "spdlog"
   ],
-  "builtin-baseline": "26abb5b33f976246a5f2cdc45cdd073d51caff06"
+  "builtin-baseline": "74ec888e385d189b42d6b398d0bbaa6f1b1d3b0e"
 }

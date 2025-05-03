@@ -4,7 +4,6 @@
 #include "constants.hpp"
 #include "exception.hpp"
 #include "util.hpp"
-#include <spdlog/spdlog.h>
 
 namespace whisp
 {
