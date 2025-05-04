@@ -1,5 +1,7 @@
 [![Build & Tests - linux clang](https://github.com/marmal95/whisp/actions/workflows/build_test_clang.yml/badge.svg)](https://github.com/marmal95/whisp/actions/workflows/build_test_clang.yml)
 [![Build & Tests - linux gcc](https://github.com/marmal95/whisp/actions/workflows/build_test_gcc.yml/badge.svg)](https://github.com/marmal95/whisp/actions/workflows/build_test_gcc.yml)
+[![Clang Tidy](https://github.com/marmal95/whisp/actions/workflows/clang_tidy.yml/badge.svg)](https://github.com/marmal95/whisp/actions/workflows/clang_tidy.yml)
+[![Clang Sanitizers](https://github.com/marmal95/whisp/actions/workflows/sanitizers.yml/badge.svg)](https://github.com/marmal95/whisp/actions/workflows/sanitizers.yml)
 
 # 🕵️‍♂️ whisp - Steganography CLI Tool
 
