@@ -1,4 +1,4 @@
-name: Clang Static Analysis
+name: Clang Tidy
 
 on:
   push:
@@ -17,21 +17,32 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Ninja
-      run: sudo apt-get update && sudo apt-get install -y ninja-build
-
-    - name: Install Clang
+    - name: Install Tools
       run: |
         sudo apt update
-        sudo apt install -y clang libc++abi-dev libc++-dev
+        sudo apt install -y ninja-build cmake
+        sudo apt install -y wget gnupg lsb-release software-properties-common
+
+    - name: Add LLVM apt repository (for Clang 20)
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 20
+        sudo apt install -y libc++-20-dev libc++abi-20-dev
+        sudo apt install clang-tidy-20
+
+    - name: Set Clang 20 as default
+      run: |
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-20 100
+        sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-20 100
+        clang --version
+        clang++ --version
 
     - name: Install vcpkg
       run: |
         git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
         $VCPKG_ROOT/bootstrap-vcpkg.sh
-
-    - name: Verify Clang Version
-      run: clang++ --version
 
     - name: Configure with CMake Preset
       run: cmake --preset x64-linux-clang-tidy

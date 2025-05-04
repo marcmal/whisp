@@ -1,4 +1,4 @@
-name: Build & Tests - linux gcc
+name: Build & Test (GCC)
 
 on:
   push:
@@ -17,8 +17,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Ninja
-      run: sudo apt-get update && sudo apt-get install -y ninja-build
+    - name: Install Tools
+      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake
 
     - name: Install vcpkg
       run: |

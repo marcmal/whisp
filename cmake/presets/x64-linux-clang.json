@@ -36,6 +36,16 @@
                 "VCPKG_TARGET_TRIPLET": "x64-linux-clang-dynamic",
                 "CLANG_TIDY_ENABLE": "ON"
             }
+        },
+        {
+            "name": "x64-linux-clang-sanitizers",
+            "inherits": "x64-linux-clang-dynamic",
+            "displayName": "x64 linux clang sanitizers",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": true,
+                "VCPKG_TARGET_TRIPLET": "x64-linux-clang-dynamic",
+                "SANITIZERS_ENABLE": "ON"
+            }
         }
     ],
     "buildPresets": [
@@ -53,6 +63,11 @@
             "name": "x64-linux-clang-tidy",
             "inherits": "base",
             "configurePreset": "x64-linux-clang-tidy"
+        },
+        {
+            "name": "x64-linux-clang-sanitizers",
+            "inherits": "base",
+            "configurePreset": "x64-linux-clang-sanitizers"
         }
     ],
     "testPresets": [
