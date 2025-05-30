@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decoder.hpp"
+#include "util/step_by_iterable.hpp"
 #include "util/types.hpp"
 #include <expected>
 #include <span>
@@ -10,8 +11,10 @@ namespace whisp
 {
 class AlphaDecoder : public Decoder
 {
+    using InputBuffer = std::span<Byte>;
+
   public:
-    AlphaDecoder(const std::span<Byte>& data);
+    AlphaDecoder(const std::span<Byte>&);
     DecodeResult decode() override;
 
   private:
@@ -19,8 +22,8 @@ class AlphaDecoder : public Decoder
     std::vector<Byte> decodeData(std::size_t length);
     Byte decodeByte();
 
-    std::span<Byte> buffer;
-    std::span<Byte>::iterator iterator;
+    decltype(step_by::makeIterable<4>(std::declval<InputBuffer>())) buffer;
+    decltype(buffer.cursor()) cursor;
 };
 
 }

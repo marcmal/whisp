@@ -6,9 +6,9 @@
 namespace whisp
 {
 
-AlphaDecoder::AlphaDecoder(const std::span<Byte>& buffer) : buffer{buffer}, iterator{buffer.begin()}
+AlphaDecoder::AlphaDecoder(const std::span<Byte>& data)
+    : buffer{step_by::makeIterable<4>(data | std::views::drop(3))}, cursor{buffer.cursor()}
 {
-    iterator += 3;
 }
 
 DecodeResult AlphaDecoder::decode()
@@ -54,14 +54,14 @@ std::vector<Byte> AlphaDecoder::decodeData(std::size_t length)
 
 Byte AlphaDecoder::decodeByte()
 {
-    if (iterator >= buffer.end())
+    auto next = cursor.next();
+    if (not next.has_value())
     {
         throw DecodeException{DecodeError{"Not enough data to decode."}};
     }
 
-    const auto byte = *iterator;
-    iterator += 4;
-    return byte;
+    const auto byte = next.value();
+    return *byte;
 }
 
 }

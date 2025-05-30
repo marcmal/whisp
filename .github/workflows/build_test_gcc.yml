@@ -20,6 +20,13 @@ jobs:
     - name: Install Tools
       run: sudo apt-get update && sudo apt-get install -y ninja-build cmake
 
+    - name: Set g++ 14 as default
+      run: |
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+        gcc --version
+        g++ --version
+
     - name: Install vcpkg
       run: |
         git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT

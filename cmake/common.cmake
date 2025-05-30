@@ -8,9 +8,9 @@ function(set_common_target_compile_properties target)
         $<$<AND:$<CXX_COMPILER_ID:Clang>,$<PLATFORM_ID:Linux>>:-stdlib=libc++ -lc++abi>)
 endfunction()
 
-function(enable_coverage target)
-  target_compile_options(${target} PUBLIC --coverage)
-  target_link_libraries(${target} PUBLIC gcov)
+function(enable_coverage target scope)
+  target_compile_options(${target} ${scope} --coverage)
+  target_link_libraries(${target} ${scope} gcov)
   message(STATUS "🟢 coverage enabled on ${target} target.")
 endfunction()
 

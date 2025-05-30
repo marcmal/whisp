@@ -1,42 +1,26 @@
 #pragma once
 
-#include "coder/coder_data.hpp"
 #include "encoder.hpp"
+#include "util/step_by_iterable.hpp"
 #include "util/types.hpp"
 #include <expected>
-#include <span>
-#include <string>
-#include <vector>
 
 namespace whisp
 {
 
 class AlphaEncoder : public Encoder
 {
+    using InputBuffer = std::span<Byte>;
+
   public:
-    explicit AlphaEncoder(const std::span<Byte>& data);
-    EncodeResult encode(const CoderData& dataToEncode) override;
+    explicit AlphaEncoder(const InputBuffer& data);
 
   private:
-    std::size_t bytesToEncode(const std::vector<Byte>& buffer, const std::string& filename) const;
-    std::size_t maxBytesToEncode() const;
+    std::size_t maxBytesToEncode() const override;
+    void encode(const Byte byte) override;
 
-    template <typename T>
-    void encode(const std::span<T> dataToEncode)
-    {
-        encode(dataToEncode.size());
-
-        for (const Byte byte : dataToEncode)
-        {
-            encode(byte);
-        }
-    }
-
-    void encode(const std::size_t size);
-    void encode(const Byte byte);
-
-    std::span<Byte> data;
-    std::span<Byte>::iterator iterator;
+    decltype(step_by::makeIterable<4>(std::declval<InputBuffer>())) buffer;
+    decltype(buffer.cursor()) cursor;
 };
 
 }
