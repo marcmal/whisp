@@ -121,4 +121,4 @@ MIT License
 
 ## ✍️ Author
 
-[github.com/marmal95](https://github.com/marmal95)
+[github.com/marcmal](https://github.com/marcmal)
