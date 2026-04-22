@@ -6,5 +6,5 @@
 
 namespace whisp
 {
-DecodeResult decode(const std::span<Byte>& data);
+[[nodiscard]] DecodeResult decode(const std::span<Byte>& data);
 }

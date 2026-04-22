@@ -1,6 +1,5 @@
 #pragma once
 
-#include "util/overload.hpp"
 #include <filesystem>
 #include <spdlog/formatter.h>
 #include <variant>
@@ -83,13 +82,3 @@ struct fmt::formatter<whisp::DecodeConfig> : fmt::formatter<std::string>
         return fmt::format_to(ctx.out(), "DecodeConfig {{ imageFile: {} }}", obj.imageFile.string());
     }
 };
-
-inline std::ostream& operator<<(std::ostream& out, const whisp::AlgorithmConfig config)
-{
-    out << "AlgorithmConfig {";
-    std::visit(overload{[&out](const whisp::RgbAlgorithmConfig& c) { out << c; },
-                        [&out](const whisp::AlphaAlgorithmConfig& c) { out << c; }},
-               config);
-    out << "}";
-    return out;
-}

@@ -4,21 +4,20 @@ namespace whisp
 {
 
 AlphaEncoder::AlphaEncoder(const std::span<Byte>& buffer)
-    : buffer{step_by::makeIterable<4>(buffer | std::views::drop(3))}, cursor{this->buffer.cursor()}
+    : view{buffer | std::views::drop(3) | std::views::stride(4)}, it{std::ranges::begin(view)}
 {
 }
 
 std::size_t AlphaEncoder::maxBytesToEncode() const
 {
-    return buffer.size();
+    return std::ranges::size(view);
 }
 
 void AlphaEncoder::encode(const Byte byte)
 {
-    auto next = cursor.next();
-    if (next.has_value())
+    if (it != std::ranges::end(view))
     {
-        **next = byte;
+        *it++ = byte;
     }
 }
 

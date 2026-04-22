@@ -32,8 +32,7 @@ int App::run(const int argc, const char* const argv[])
         }
         else
         {
-            // fmt::format needed due due to consteval issue when compiling with Clang
-            spdlog::error(fmt::format("{}", options.error()));
+            spdlog::error(fmt::format("{}", options.error())); // NOLINT(spdlog-use-fmt-format)
             return EXIT_FAILURE;
         }
     }
@@ -48,7 +47,7 @@ int App::run(const int argc, const char* const argv[])
 
 int App::encode(const whisp::EncodeConfig& config)
 {
-    spdlog::info(fmt::format("Running encode with config: {}", config));
+    spdlog::info(fmt::format("Running encode with config: {}", config)); // NOLINT(spdlog-use-fmt-format)
 
     auto image = io::readImage(config.imageFile);
     std::span imageData{image.begin(), image.end()};
@@ -66,14 +65,14 @@ int App::encode(const whisp::EncodeConfig& config)
     }
     else
     {
-        spdlog::error(fmt::format("{}", encodeResult.error()));
+        spdlog::error(fmt::format("{}", encodeResult.error())); // NOLINT(spdlog-use-fmt-format)
         return EXIT_FAILURE;
     }
 }
 
 int App::decode(const whisp::DecodeConfig& config)
 {
-    spdlog::info(fmt::format("Running decode with config: {}", config));
+    spdlog::info(fmt::format("Running decode with config: {}", config)); // NOLINT(spdlog-use-fmt-format)
 
     auto image = io::readImage(config.imageFile);
     std::span span{image.begin(), image.end()};
@@ -89,10 +88,9 @@ int App::decode(const whisp::DecodeConfig& config)
     }
     else
     {
-        spdlog::error(fmt::format("{}", decodeResult.error()));
+        spdlog::error(fmt::format("{}", decodeResult.error())); // NOLINT(spdlog-use-fmt-format)
         return EXIT_FAILURE;
     }
-    return EXIT_FAILURE;
 }
 
 }

@@ -46,7 +46,7 @@ EncodeResult encode(const AlgorithmConfig& algorithmConfig, std::span<Byte> buff
     const auto headerBuffer = buffer.subspan(0, header.size() * 4);
     const auto dataBuffer = buffer.subspan(header.size() * 4);
 
-    encodeHeader(header, headerBuffer).value();
+    encodeHeader(header, headerBuffer);
     return createEncoder(algorithmConfig, dataBuffer)->encode(coderData);
 }
 

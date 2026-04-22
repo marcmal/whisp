@@ -28,19 +28,13 @@ setup_sanitizers(io_test)
 target_link_libraries(io_test PRIVATE io GTest::GTest GTest::gtest_main)
 add_test(NAME IOTest COMMAND io_test)
 
-add_executable(util_test util/step_by_iterable_test.cpp)
-set_common_target_compile_properties(util_test)
-setup_sanitizers(util_test)
-target_link_libraries(util_test PRIVATE util GTest::GTest GTest::gtest_main)
-add_test(NAME UtilTest COMMAND util_test)
-
 add_executable(app_test app/app_test.cpp)
 set_common_target_compile_properties(app_test)
 setup_sanitizers(app_test)
 target_link_libraries(app_test PRIVATE app GTest::GTest)
 add_test(NAME AppTest COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app)
 
-set(TEST_TARGETS parser_test coder_test io_test util_test app_test)
+set(TEST_TARGETS parser_test coder_test io_test app_test)
 set(LIB_TARGETS parser coder io app)
 add_custom_target(whisp_tests DEPENDS ${TEST_TARGETS})
 

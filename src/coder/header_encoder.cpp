@@ -24,11 +24,10 @@ void encodeAlgorithmHeader(const AlgorithmHeader& header, std::span<Byte> buffer
                header);
 }
 
-EncodeResult encodeHeader(const Header& header, std::span<Byte> buffer)
+void encodeHeader(const Header& header, std::span<Byte> buffer)
 {
     encodeAlgorithmMode(header.mode, buffer);
     encodeAlgorithmHeader(header.header, buffer);
-    return {};
 }
 
 }

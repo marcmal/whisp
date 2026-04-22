@@ -11,7 +11,7 @@ class FileReader
 {
   public:
     explicit FileReader(const std::filesystem::path& file);
-    std::vector<Byte> read() const;
+    [[nodiscard]] std::vector<Byte> read() const;
 
   private:
     std::filesystem::path file;

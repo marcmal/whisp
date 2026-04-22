@@ -1,9 +1,8 @@
 #pragma once
 
 #include "decoder.hpp"
-#include "util/step_by_iterable.hpp"
 #include "util/types.hpp"
-#include <expected>
+#include <ranges>
 #include <span>
 #include <vector>
 
@@ -11,8 +10,6 @@ namespace whisp
 {
 class AlphaDecoder : public Decoder
 {
-    using InputBuffer = std::span<Byte>;
-
   public:
     AlphaDecoder(const std::span<Byte>&);
     DecodeResult decode() override;
@@ -22,8 +19,9 @@ class AlphaDecoder : public Decoder
     std::vector<Byte> decodeData(std::size_t length);
     Byte decodeByte();
 
-    decltype(step_by::makeIterable<4>(std::declval<InputBuffer>())) buffer;
-    decltype(buffer.cursor()) cursor;
+    using StridedView = decltype(std::declval<std::span<Byte>>() | std::views::drop(3) | std::views::stride(4));
+    StridedView view;
+    std::ranges::iterator_t<StridedView> it;
 };
 
 }

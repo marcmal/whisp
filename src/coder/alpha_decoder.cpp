@@ -7,7 +7,7 @@ namespace whisp
 {
 
 AlphaDecoder::AlphaDecoder(const std::span<Byte>& data)
-    : buffer{step_by::makeIterable<4>(data | std::views::drop(3))}, cursor{buffer.cursor()}
+    : view{data | std::views::drop(3) | std::views::stride(4)}, it{std::ranges::begin(view)}
 {
 }
 
@@ -54,14 +54,11 @@ std::vector<Byte> AlphaDecoder::decodeData(std::size_t length)
 
 Byte AlphaDecoder::decodeByte()
 {
-    auto next = cursor.next();
-    if (not next.has_value())
+    if (it == std::ranges::end(view))
     {
         throw DecodeException{DecodeError{"Not enough data to decode."}};
     }
-
-    const auto byte = next.value();
-    return *byte;
+    return *it++;
 }
 
 }

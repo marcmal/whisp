@@ -22,7 +22,7 @@ class AlphaEncoderDecoderTestSuite : public testing::Test
 
         AlphaAlgorithmConfig config{};
         CoderData dataToEncode{buffer, expectedFilename};
-        whisp::encode(config, std::span{data}, dataToEncode);
+        whisp::encode(config, std::span{data}, dataToEncode).value();
         const auto [decodedData, decodedFilename] = whisp::decode(data).value();
 
         std::string decodedMessage{decodedData.begin(), decodedData.end()};

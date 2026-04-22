@@ -14,7 +14,7 @@ class ArgParser
 {
   public:
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
-    Result parse(const int argc, const char* const argv[]);
+    [[nodiscard]] Result parse(const int argc, const char* const argv[]);
 
   private:
     CLI::App app{"Whisp - image steganography tool"};
