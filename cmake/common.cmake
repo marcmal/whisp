@@ -1,6 +1,6 @@
 # sets default target properties
 function(set_common_target_compile_properties target)
-    target_compile_features(${target} PRIVATE cxx_std_23)
+    target_compile_features(${target} PUBLIC cxx_std_23)
     target_compile_options(${target} PRIVATE
         $<$<AND:$<CXX_COMPILER_ID:Clang>,$<PLATFORM_ID:Linux>>:-stdlib=libc++>)
 
@@ -10,16 +10,24 @@ endfunction()
 
 function(enable_coverage target scope)
   target_compile_options(${target} ${scope} --coverage)
-  target_link_libraries(${target} ${scope} gcov)
+  target_link_options(${target} ${scope} --coverage)
   message(STATUS "🟢 coverage enabled on ${target} target.")
 endfunction()
+
+function(enable_source_based_coverage target scope)
+  target_compile_options(${target} ${scope} -fprofile-instr-generate -fcoverage-mapping)
+  target_link_options(${target} ${scope} -fprofile-instr-generate)
+  message(STATUS "🟢 source-based coverage enabled on ${target} target.")
+endfunction()
+
+find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 
 function(setup_sanitizers target)
     if (SANITIZERS_ENABLE)
         set(SANITIZERS -fsanitize=address -fsanitize=leak -fsanitize=undefined)
 
-        target_compile_options(${target} PUBLIC ${SANITIZERS})
-        target_link_options(${target} PUBLIC ${SANITIZERS})
+        target_compile_options(${target} PRIVATE ${SANITIZERS})
+        target_link_options(${target} PRIVATE ${SANITIZERS})
 
         message(STATUS "🟢 configured sanitizers for ${target} target.")
     endif()
@@ -27,8 +35,6 @@ endfunction()
 
 function(setup_clang_tidy target)
   if (CLANG_TIDY_ENABLE)
-        find_program(CLANG_TIDY_EXE NAMES clang-tidy)
-
         set(CLANG_TIDY_OPTS "--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy")
         set(CLANG_TIDY_COMMAND ${CLANG_TIDY_EXE} ${CLANG_TIDY_OPTS})
 

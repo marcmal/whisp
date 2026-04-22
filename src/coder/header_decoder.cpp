@@ -19,7 +19,7 @@ std::expected<AlgorithmHeader, DecodeError> decodeAlgorithmHeader(const int mode
     }
     if (mode == Header::RGB_MODE)
     {
-        return RgbAlgorithmHeader{data[3 + 4]};
+        return RgbAlgorithmHeader{data[3 + 4]}; // NOLINT(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
     }
     return std::unexpected(DecodeError{std::format("Decoding algorithm header failure, mode: {}", mode)});
 }
@@ -28,7 +28,7 @@ std::expected<AlgorithmHeader, DecodeError> decodeAlgorithmHeader(const int mode
 
 std::expected<Header, DecodeError> decodeHeader(const std::span<Byte>& data)
 {
-    const auto mode = data[3];
+    const auto mode = data[3]; // NOLINT(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
     const auto algorithmHeader = decodeAlgorithmHeader(mode, data);
     if (not algorithmHeader.has_value())
     {

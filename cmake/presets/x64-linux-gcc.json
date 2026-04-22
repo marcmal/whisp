@@ -26,6 +26,14 @@
                 "BUILD_SHARED_LIBS": true,
                 "VCPKG_TARGET_TRIPLET": "x64-linux-gcc-dynamic"
             }
+        },
+        {
+            "name": "x64-linux-gcc-coverage",
+            "inherits": "x64-linux-gcc-dynamic",
+            "displayName": "x64 linux gcc coverage",
+            "cacheVariables": {
+                "COVERAGE_ENABLE": "ON"
+            }
         }
     ],
     "buildPresets": [
@@ -38,6 +46,11 @@
             "name": "x64-linux-gcc-dynamic",
             "inherits": "base",
             "configurePreset": "x64-linux-gcc-dynamic"
+        },
+        {
+            "name": "x64-linux-gcc-coverage",
+            "inherits": "base",
+            "configurePreset": "x64-linux-gcc-coverage"
         }
     ],
     "testPresets": [
@@ -50,6 +63,11 @@
             "name": "x64-linux-gcc-dynamic",
             "inherits": "base",
             "configurePreset": "x64-linux-gcc-dynamic"
+        },
+        {
+            "name": "x64-linux-gcc-coverage",
+            "inherits": "base",
+            "configurePreset": "x64-linux-gcc-coverage"
         }
     ],
     "workflowPresets": [

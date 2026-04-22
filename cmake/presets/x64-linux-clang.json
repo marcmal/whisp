@@ -32,8 +32,6 @@
             "inherits": "x64-linux-clang-dynamic",
             "displayName": "x64 linux clang tidy",
             "cacheVariables": {
-                "BUILD_SHARED_LIBS": true,
-                "VCPKG_TARGET_TRIPLET": "x64-linux-clang-dynamic",
                 "CLANG_TIDY_ENABLE": "ON"
             }
         },
@@ -42,9 +40,15 @@
             "inherits": "x64-linux-clang-dynamic",
             "displayName": "x64 linux clang sanitizers",
             "cacheVariables": {
-                "BUILD_SHARED_LIBS": true,
-                "VCPKG_TARGET_TRIPLET": "x64-linux-clang-dynamic",
                 "SANITIZERS_ENABLE": "ON"
+            }
+        },
+        {
+            "name": "x64-linux-clang-coverage",
+            "inherits": "x64-linux-clang-dynamic",
+            "displayName": "x64 linux clang source-based coverage",
+            "cacheVariables": {
+                "COVERAGE_SOURCE_ENABLE": "ON"
             }
         }
     ],
@@ -68,6 +72,11 @@
             "name": "x64-linux-clang-sanitizers",
             "inherits": "base",
             "configurePreset": "x64-linux-clang-sanitizers"
+        },
+        {
+            "name": "x64-linux-clang-coverage",
+            "inherits": "base",
+            "configurePreset": "x64-linux-clang-coverage"
         }
     ],
     "testPresets": [
@@ -80,6 +89,11 @@
             "name": "x64-linux-clang-dynamic",
             "inherits": "base",
             "configurePreset": "x64-linux-clang-dynamic"
+        },
+        {
+            "name": "x64-linux-clang-sanitizers",
+            "inherits": "base",
+            "configurePreset": "x64-linux-clang-sanitizers"
         }
     ],
     "workflowPresets": [

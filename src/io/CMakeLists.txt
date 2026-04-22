@@ -15,4 +15,12 @@ target_link_libraries(io PUBLIC util)
 target_link_libraries(io PRIVATE CImg::CImg PNG::PNG)
 
 setup_clang_tidy(io)
-setup_sanitizers(io) 
+setup_sanitizers(io)
+
+if (COVERAGE_ENABLE)
+  enable_coverage(io PUBLIC)
+endif()
+
+if (COVERAGE_SOURCE_ENABLE)
+  enable_source_based_coverage(io PUBLIC)
+endif()

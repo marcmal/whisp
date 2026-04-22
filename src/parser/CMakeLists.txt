@@ -10,4 +10,12 @@ target_include_directories(parser PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} PUBLIC ${C
 target_link_libraries(parser PUBLIC CLI11::CLI11 util spdlog::spdlog)
 
 setup_clang_tidy(parser)
-setup_sanitizers(parser) 
+setup_sanitizers(parser)
+
+if (COVERAGE_ENABLE)
+  enable_coverage(parser PUBLIC)
+endif()
+
+if (COVERAGE_SOURCE_ENABLE)
+  enable_source_based_coverage(parser PUBLIC)
+endif()

@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.27)
-project(whisp VERSION 1.0 LANGUAGES CXX)
-
 include(common)
 
 add_subdirectory(coder)
@@ -17,7 +14,15 @@ find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(app PRIVATE spdlog::spdlog)
 
 setup_clang_tidy(app)
-setup_sanitizers(app) 
+setup_sanitizers(app)
+
+if (COVERAGE_ENABLE)
+  enable_coverage(app PUBLIC)
+endif()
+
+if (COVERAGE_SOURCE_ENABLE)
+  enable_source_based_coverage(app PUBLIC)
+endif()
 
 add_executable(whisp main.cpp)
 set_common_target_compile_properties(whisp)
@@ -25,3 +30,11 @@ target_link_libraries(whisp PRIVATE app)
 
 setup_clang_tidy(whisp)
 setup_sanitizers(whisp)
+
+if (COVERAGE_ENABLE)
+  enable_coverage(whisp PUBLIC)
+endif()
+
+if (COVERAGE_SOURCE_ENABLE)
+  enable_source_based_coverage(whisp PUBLIC)
+endif()

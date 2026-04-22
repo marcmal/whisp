@@ -18,4 +18,12 @@ target_link_libraries(coder PUBLIC util parser)
 target_link_libraries(coder PRIVATE spdlog::spdlog)
 
 setup_clang_tidy(coder)
-setup_sanitizers(coder) 
+setup_sanitizers(coder)
+
+if (COVERAGE_ENABLE)
+  enable_coverage(coder PUBLIC)
+endif()
+
+if (COVERAGE_SOURCE_ENABLE)
+  enable_source_based_coverage(coder PUBLIC)
+endif()
