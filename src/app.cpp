@@ -22,13 +22,13 @@ int App::run(const int argc, const char* const argv[])
         const auto options = whisp::ArgParser{}.parse(argc, argv);
         if (options.has_value())
         {
-            if (const auto& optionsResult = options.value(); optionsResult.has_value())
-            {
-                return std::visit(overload{[this](const whisp::EncodeConfig& config) { return encode(config); },
-                                           [this](const whisp::DecodeConfig& config) { return decode(config); }},
-                                  optionsResult.value());
-            }
-            return EXIT_SUCCESS;
+            return std::visit(overload{[this](const whisp::EncodeConfig& config) { return encode(config); },
+                                       [this](const whisp::DecodeConfig& config) { return decode(config); },
+                                       [](const whisp::Help& help) {
+                                           std::cout << help.message;
+                                           return EXIT_SUCCESS;
+                                       }},
+                              options.value());
         }
         else
         {
@@ -53,7 +53,7 @@ int App::encode(const whisp::EncodeConfig& config)
     std::span imageData{image.begin(), image.end()};
 
     io::FileReader fileReader{config.secretFile};
-    CoderData dataToEncode{fileReader.read(), config.secretFile.filename()};
+    CoderData dataToEncode{fileReader.read(), config.secretFile};
     const auto encodeResult = whisp::encode(config.algorithmConfig, imageData, dataToEncode);
 
     if (encodeResult.has_value())

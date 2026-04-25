@@ -4,11 +4,10 @@
 #include "parser/error.hpp"
 #include <CLI/CLI.hpp>
 #include <expected>
-#include <optional>
 
 namespace whisp
 {
-using Result = std::expected<std::optional<Config>, ParserError>;
+using Result = std::expected<Config, ParserError>;
 
 class ArgParser
 {

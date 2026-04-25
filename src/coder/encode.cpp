@@ -2,6 +2,7 @@
 #include "alpha_encoder.hpp"
 #include "coder/coder_data.hpp"
 #include "coder/encode.hpp"
+#include "constants.hpp"
 #include "header.hpp"
 #include "header_encoder.hpp"
 #include "parser/config.hpp"
@@ -38,13 +39,13 @@ std::unique_ptr<Encoder> createEncoder(const AlgorithmConfig& algorithmConfig, s
 EncodeResult encode(const AlgorithmConfig& algorithmConfig, std::span<Byte> buffer, const CoderData& coderData)
 {
     const auto header = createHeader(algorithmConfig);
-    if (buffer.size() < header.size() * 4)
+    if (buffer.size() < header.size() * BYTES_PER_PIXEL)
     {
         return std::unexpected(EncodeError{"Not enough buffer to encode header."});
     }
 
-    const auto headerBuffer = buffer.subspan(0, header.size() * 4);
-    const auto dataBuffer = buffer.subspan(header.size() * 4);
+    const auto headerBuffer = buffer.subspan(0, header.size() * BYTES_PER_PIXEL);
+    const auto dataBuffer = buffer.subspan(header.size() * BYTES_PER_PIXEL);
 
     encodeHeader(header, headerBuffer);
     return createEncoder(algorithmConfig, dataBuffer)->encode(coderData);

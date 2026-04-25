@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <spdlog/formatter.h>
+#include <string>
 #include <variant>
 
 namespace whisp
@@ -30,7 +31,12 @@ struct DecodeConfig
     std::filesystem::path imageFile;
 };
 
-using Config = std::variant<EncodeConfig, DecodeConfig>;
+struct Help
+{
+    std::string message;
+};
+
+using Config = std::variant<EncodeConfig, DecodeConfig, Help>;
 }
 
 template <>

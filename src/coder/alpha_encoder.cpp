@@ -4,7 +4,7 @@ namespace whisp
 {
 
 AlphaEncoder::AlphaEncoder(const std::span<Byte>& buffer)
-    : view{buffer | std::views::drop(3) | std::views::stride(4)}, it{std::ranges::begin(view)}
+    : view{buffer | std::views::drop(3) | std::views::stride(BYTES_PER_PIXEL)}, it{std::ranges::begin(view)}
 {
 }
 

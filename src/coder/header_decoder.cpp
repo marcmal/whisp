@@ -1,9 +1,9 @@
 #include "coder/error.hpp"
+#include "constants.hpp"
 #include "header.hpp"
 #include "header_encoder.hpp"
 #include <expected>
 #include <format>
-#include <spdlog/spdlog.h>
 
 namespace whisp
 {
@@ -19,7 +19,8 @@ std::expected<AlgorithmHeader, DecodeError> decodeAlgorithmHeader(const int mode
     }
     if (mode == Header::RGB_MODE)
     {
-        return RgbAlgorithmHeader{data[3 + 4]}; // NOLINT(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+        return RgbAlgorithmHeader{data[3 + BYTES_PER_PIXEL]};
     }
     return std::unexpected(DecodeError{std::format("Decoding algorithm header failure, mode: {}", mode)});
 }

@@ -1,14 +1,16 @@
 #include "coder/decode.hpp"
 #include "alpha_decoder.hpp"
+#include "constants.hpp"
 #include "decoder.hpp"
 #include "header.hpp"
 #include "header_decoder.hpp"
 #include "rgb_decoder.hpp"
-#include <spdlog/spdlog.h>
 
 namespace whisp
 {
 
+namespace
+{
 std::unique_ptr<Decoder> createDecoder(const Header& header, std::span<Byte> buffer)
 {
     auto result = std::visit(overload{[&](const AlphaAlgorithmHeader&) -> std::unique_ptr<Decoder> {
@@ -20,6 +22,7 @@ std::unique_ptr<Decoder> createDecoder(const Header& header, std::span<Byte> buf
                              header.header);
     return result;
 }
+}
 
 DecodeResult decode(const std::span<Byte>& buffer)
 {
@@ -28,7 +31,7 @@ DecodeResult decode(const std::span<Byte>& buffer)
     {
         return std::unexpected(header.error());
     }
-    auto decoder = createDecoder(header.value(), buffer.subspan(header.value().size() * 4));
+    auto decoder = createDecoder(header.value(), buffer.subspan(header.value().size() * BYTES_PER_PIXEL));
     return decoder->decode();
 }
 

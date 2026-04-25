@@ -18,12 +18,12 @@ class Encoder
 
     EncodeResult encode(const CoderData& dataToEncode)
     {
-        if (bytesToEncode(dataToEncode.content, dataToEncode.filename) > maxBytesToEncode())
+        if (bytesToEncode(dataToEncode.content, dataToEncode.secretFileName) > maxBytesToEncode())
         {
             return std::unexpected(EncodeError{"Too long message to encode."});
         }
 
-        encode(std::span{dataToEncode.filename});
+        encode(std::span{dataToEncode.secretFileName});
         encode(std::span{dataToEncode.content});
         return {};
     }

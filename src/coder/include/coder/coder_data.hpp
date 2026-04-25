@@ -10,7 +10,7 @@ namespace whisp
 struct CoderData
 {
     std::vector<whisp::Byte> content;
-    std::string filename;
+    std::string secretFileName;
 };
 
 }

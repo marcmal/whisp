@@ -1,4 +1,5 @@
 #include "header_encoder.hpp"
+#include "constants.hpp"
 #include "header.hpp"
 
 namespace whisp
@@ -19,7 +20,7 @@ void encodeAlgorithmHeader(const AlgorithmHeader& header, std::span<Byte> buffer
     std::visit(overload{[](const AlphaAlgorithmHeader&) {},
                         [&buffer](const RgbAlgorithmHeader& config) {
                             // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
-                            buffer[ALPHA_INDEX + 4] = config.bitsPerChannel;
+                            buffer[ALPHA_INDEX + BYTES_PER_PIXEL] = config.bitsPerChannel;
                         }},
                header);
 }

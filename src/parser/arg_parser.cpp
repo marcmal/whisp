@@ -1,9 +1,9 @@
 #include "parser/arg_parser.hpp"
 #include "CLI/CLI.hpp"
+#include "parser/config.hpp"
 #include "parser/error.hpp"
 #include <expected>
 #include <iostream>
-#include <optional>
 
 namespace whisp
 {
@@ -40,8 +40,7 @@ Result ArgParser::parse(const int argc, const char* const argv[])
     }
     catch (const CLI::CallForHelp& e)
     {
-        std::cout << app.help();
-        return std::optional<Config>{};
+        return Help{app.help()};
     }
     catch (const CLI::ParseError& e)
     {

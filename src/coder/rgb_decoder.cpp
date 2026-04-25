@@ -1,5 +1,4 @@
 #include "rgb_decoder.hpp"
-#include "coder/coder_data.hpp"
 #include "coder/error.hpp"
 #include "constants.hpp"
 #include "exception.hpp"
@@ -11,22 +10,6 @@ namespace whisp
 RgbDecoder::RgbDecoder(const std::span<Byte>& buffer, const int bitsPerChannel)
     : buffer{buffer}, iterator{buffer.begin()}, bitsPerChannel{bitsPerChannel}
 {
-}
-
-DecodeResult RgbDecoder::decode()
-{
-    try
-    {
-        const auto filenameLength = decodeLength();
-        const auto filename = decodeData(filenameLength);
-        const auto dataLength = decodeLength();
-        const auto decodedData = decodeData(dataLength);
-        return CoderData{decodedData, std::string{filename.begin(), filename.end()}};
-    }
-    catch (const DecodeException& e)
-    {
-        return std::unexpected(e.cause);
-    }
 }
 
 std::size_t RgbDecoder::decodeLength()
