@@ -54,7 +54,7 @@ jobs:
         cat /home/runner/work/whisp/whisp/vcpkg/buildtrees/detect_compiler/config-x64-linux-clang-dynamic-rel-err.log || echo "Log not found"
 
     - name: Build unit tests
-      run: cmake --build --preset x64-linux-clang-dynamic --config Release --target whisp_tests
+      run: cmake --build --preset x64-linux-clang-dynamic --config Release --target tests
 
     - name: Run unit tests
       run: ctest --preset x64-linux-clang-dynamic --build-config Release

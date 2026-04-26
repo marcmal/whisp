@@ -85,7 +85,7 @@ The tool will detect the encoding method and extract the hidden file.
 To run unit tests:
 
 ```bash
-cmake --build --preset <PRESET_NAME> --target whisp_tests
+cmake --build --preset <PRESET_NAME> --target tests
 ctest --preset <PRESET_NAME>
 ```
 

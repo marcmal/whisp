@@ -46,7 +46,7 @@ jobs:
       run: cmake --preset x64-linux-clang-sanitizers
 
     - name: Build application
-      run: cmake --build --preset x64-linux-clang-sanitizers --config Debug --target whisp_tests
+      run: cmake --build --preset x64-linux-clang-sanitizers --config Debug --target tests
 
     - name: Run unit tests
       run: ctest --preset x64-linux-clang-sanitizers --build-config Debug
