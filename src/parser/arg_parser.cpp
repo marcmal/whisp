@@ -11,6 +11,7 @@ namespace whisp
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
 Result ArgParser::parse(const int argc, const char* const argv[])
 {
+    app.fallthrough();
     bool verbose{};
     app.add_flag("--verbose", verbose, "Verbose mode")->default_val(false);
 

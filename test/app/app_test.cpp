@@ -166,8 +166,17 @@ TEST_F(AppIntegrationTest, Help)
 
 TEST_F(AppIntegrationTest, SetDebugLevelWhenVerboseMode)
 {
-    const char* argv[] = {"whisp", "--help", "--verbose"};
-    EXPECT_EQ(app.run(arraySize(argv), argv), EXIT_SUCCESS);
+    {
+        const char* argv[] = {"whisp",
+                              "encode",
+                              "--image-file",
+                              TEST_DATA.rgbImage.c_str(),
+                              "--secret-file",
+                              TEST_DATA.input.c_str(),
+                              "alpha",
+                              "--verbose"};
+        EXPECT_EQ(app.run(arraySize(argv), argv), EXIT_SUCCESS);
+    }
     EXPECT_EQ(spdlog::get_level(), spdlog::level::debug);
 }
 
