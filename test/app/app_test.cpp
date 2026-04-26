@@ -4,6 +4,7 @@
 #include <fstream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <spdlog/spdlog.h>
 
 namespace whisp
 {
@@ -161,6 +162,13 @@ TEST_F(AppIntegrationTest, Help)
 {
     const char* argv[] = {"whisp", "--help"};
     EXPECT_EQ(app.run(arraySize(argv), argv), EXIT_SUCCESS);
+}
+
+TEST_F(AppIntegrationTest, SetDebugLevelWhenVerboseMode)
+{
+    const char* argv[] = {"whisp", "--help", "--verbose"};
+    EXPECT_EQ(app.run(arraySize(argv), argv), EXIT_SUCCESS);
+    EXPECT_EQ(spdlog::get_level(), spdlog::level::debug);
 }
 
 TEST_F(AppIntegrationTest, WrongArgumentsReturnsFailure)

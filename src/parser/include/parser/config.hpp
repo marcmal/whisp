@@ -37,6 +37,13 @@ struct Help
 };
 
 using Config = std::variant<EncodeConfig, DecodeConfig, Help>;
+
+struct ParserResult
+{
+    Config config;
+    bool verbose;
+};
+
 }
 
 template <>
@@ -86,5 +93,32 @@ struct fmt::formatter<whisp::DecodeConfig> : fmt::formatter<std::string>
     auto format(const whisp::DecodeConfig& obj, format_context& ctx) const
     {
         return fmt::format_to(ctx.out(), "DecodeConfig {{ imageFile: {} }}", obj.imageFile.string());
+    }
+};
+
+template <>
+struct fmt::formatter<whisp::Help> : fmt::formatter<std::string>
+{
+    auto format(const whisp::Help&, format_context& ctx) const
+    {
+        return fmt::format_to(ctx.out(), "Help {{}}");
+    }
+};
+
+template <>
+struct fmt::formatter<whisp::Config> : fmt::formatter<std::string>
+{
+    auto format(const whisp::Config& obj, format_context& ctx) const
+    {
+        return std::visit([&ctx](const auto& val) { return format_to(ctx.out(), "Config {{ {} }}", val); }, obj);
+    }
+};
+
+template <>
+struct fmt::formatter<whisp::ParserResult> : fmt::formatter<std::string>
+{
+    auto format(const whisp::ParserResult& obj, format_context& ctx) const
+    {
+        return fmt::format_to(ctx.out(), "ParserResult {{ config: {}, verbose: {} }}", obj.config, obj.verbose);
     }
 };

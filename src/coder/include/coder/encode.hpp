@@ -10,6 +10,8 @@ namespace whisp
 
 struct CoderData;
 
-[[nodiscard]] EncodeResult encode(const AlgorithmConfig& algorithmConfig, std::span<Byte> buffer, const CoderData& coderData);
+[[nodiscard]] EncodeResult encode(const AlgorithmConfig& algorithmConfig,
+                                  std::span<Byte> buffer,
+                                  const CoderData& coderData);
 
 }

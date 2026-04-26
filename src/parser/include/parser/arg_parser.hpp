@@ -7,7 +7,7 @@
 
 namespace whisp
 {
-using Result = std::expected<Config, ParserError>;
+using Result = std::expected<ParserResult, ParserError>;
 
 class ArgParser
 {

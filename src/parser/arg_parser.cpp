@@ -11,6 +11,9 @@ namespace whisp
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
 Result ArgParser::parse(const int argc, const char* const argv[])
 {
+    bool verbose{};
+    app.add_flag("--verbose", verbose, "Verbose mode")->default_val(false);
+
     auto* encodeCommand = app.add_subcommand("encode", "Encode an image");
     auto* decodeCommand = app.add_subcommand("decode", "Decode an image");
     app.require_subcommand(1);
@@ -40,7 +43,7 @@ Result ArgParser::parse(const int argc, const char* const argv[])
     }
     catch (const CLI::CallForHelp& e)
     {
-        return Help{app.help()};
+        return ParserResult{Help{app.help()}, verbose};
     }
     catch (const CLI::ParseError& e)
     {
@@ -52,18 +55,18 @@ Result ArgParser::parse(const int argc, const char* const argv[])
         if (rgbEncodeAlgorithmCommand->parsed())
         {
             encodeConfig.algorithmConfig = rgbAlgorithmConfig;
-            return Config{encodeConfig};
+            return ParserResult{Config{encodeConfig}, verbose};
         }
 
         if (alphaEncodeAlgorithmCommand->parsed())
         {
             encodeConfig.algorithmConfig = alphaAlgorithmConfig;
-            return Config{encodeConfig};
+            return ParserResult{Config{encodeConfig}, verbose};
         }
     }
     else if (decodeCommand->parsed())
     {
-        return Config{decodeConfig};
+        return ParserResult{Config{decodeConfig}, verbose};
     }
 
     // Should never happen

@@ -33,7 +33,17 @@ TEST_F(ArgParserTestSuite, Help)
 
     const auto result = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(result.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::Help>(result.value()));
+    EXPECT_TRUE(std::holds_alternative<whisp::Help>(result.value().config));
+}
+
+TEST_F(ArgParserTestSuite, ParseVerboseFlag)
+{
+    const char* argv[] = {"whisp", "--verbose", "encode", "--image-file", image, "--secret-file", filename, "alpha"};
+    constexpr auto argc = arraySize(argv);
+
+    const auto result = objectUnderTest.parse(argc, argv);
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(result->verbose);
 }
 
 TEST_F(ArgParserTestSuite, MissingMode)
@@ -116,9 +126,9 @@ TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsAlphaMode)
 
     const auto options = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(options.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::EncodeConfig>(options.value()));
+    EXPECT_TRUE(std::holds_alternative<whisp::EncodeConfig>(options.value().config));
 
-    const auto& encodeOptions = std::get<whisp::EncodeConfig>(options.value());
+    const auto& encodeOptions = std::get<whisp::EncodeConfig>(options.value().config);
     EXPECT_EQ(encodeOptions.imageFile, image);
     EXPECT_EQ(encodeOptions.secretFile, filename);
     EXPECT_TRUE(std::holds_alternative<whisp::AlphaAlgorithmConfig>(encodeOptions.algorithmConfig));
@@ -131,9 +141,9 @@ TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsRgbMode)
 
     const auto options = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(options.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::EncodeConfig>(options.value()));
+    EXPECT_TRUE(std::holds_alternative<whisp::EncodeConfig>(options.value().config));
 
-    const auto& encodeOptions = std::get<whisp::EncodeConfig>(options.value());
+    const auto& encodeOptions = std::get<whisp::EncodeConfig>(options.value().config);
     EXPECT_EQ(encodeOptions.imageFile, image);
     EXPECT_EQ(encodeOptions.secretFile, filename);
 
@@ -149,9 +159,9 @@ TEST_F(ArgParserTestSuite, ParseDecodeArgsIntoOptions)
 
     const auto options = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(options.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::DecodeConfig>(options.value()));
+    EXPECT_TRUE(std::holds_alternative<whisp::DecodeConfig>(options.value().config));
 
-    const auto& decodeOptions = std::get<whisp::DecodeConfig>(options.value());
+    const auto& decodeOptions = std::get<whisp::DecodeConfig>(options.value().config);
     EXPECT_EQ(decodeOptions.imageFile, image);
 }
 

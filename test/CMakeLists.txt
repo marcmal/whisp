@@ -31,12 +31,13 @@ add_test(NAME IOTest COMMAND io_test)
 add_executable(app_test app/app_test.cpp)
 set_common_target_compile_properties(app_test)
 setup_sanitizers(app_test)
-target_link_libraries(app_test PRIVATE app GTest::GTest)
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(app_test PRIVATE app GTest::GTest spdlog::spdlog)
 add_test(NAME AppTest COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app)
 
 set(TEST_TARGETS parser_test coder_test io_test app_test)
 set(LIB_TARGETS parser coder io app)
-add_custom_target(whisp_tests DEPENDS ${TEST_TARGETS})
+add_custom_target(tests DEPENDS ${TEST_TARGETS})
 
 if (COVERAGE_ENABLE)
   add_custom_target(coverage
@@ -44,7 +45,7 @@ if (COVERAGE_ENABLE)
                     COMMAND gcovr --exclude test --exclude ${CMAKE_BINARY_DIR}/vcpkg_installed
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                     )
-  add_dependencies(coverage whisp_tests)
+  add_dependencies(coverage tests)
 endif()
 
 if (COVERAGE_SOURCE_ENABLE)
@@ -68,7 +69,7 @@ if (COVERAGE_SOURCE_ENABLE)
             ${COVERAGE_OBJECTS}
             -instr-profile=${CMAKE_BINARY_DIR}/whisp.profdata
             ${COVERAGE_IGNORE_REGEX}
-    DEPENDS whisp_tests
+    DEPENDS tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     VERBATIM
   )

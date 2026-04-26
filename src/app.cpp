@@ -9,6 +9,7 @@
 #include "parser/config.hpp"
 #include "util/overload.hpp"
 #include <cstdlib>
+#include <spdlog/common.h>
 #include <spdlog/spdlog.h>
 
 namespace whisp
@@ -20,15 +21,20 @@ int App::run(const int argc, const char* const argv[])
     try
     {
         const auto options = whisp::ArgParser{}.parse(argc, argv);
+
         if (options.has_value())
         {
+            if (options->verbose)
+            {
+                spdlog::set_level(spdlog::level::debug);
+            }
             return std::visit(overload{[this](const whisp::EncodeConfig& config) { return encode(config); },
                                        [this](const whisp::DecodeConfig& config) { return decode(config); },
                                        [](const whisp::Help& help) {
                                            std::cout << help.message;
                                            return EXIT_SUCCESS;
                                        }},
-                              options.value());
+                              options->config);
         }
         else
         {
