@@ -1,6 +1,6 @@
 # sets default target properties
 function(set_common_target_compile_properties target)
-    target_compile_features(${target} PUBLIC cxx_std_23)
+    target_compile_features(${target} PUBLIC cxx_std_26)
 endfunction()
 
 function(enable_coverage target scope)

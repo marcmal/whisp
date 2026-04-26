@@ -38,14 +38,14 @@ int App::run(const int argc, const char* const argv[])
         }
         else
         {
-            spdlog::error(fmt::format("{}", options.error())); // NOLINT(spdlog-use-fmt-format)
+            spdlog::error("{}", options.error());
             return EXIT_FAILURE;
         }
     }
     // LCOV_EXCL_START
     catch (const std::exception& e)
     {
-        spdlog::error(fmt::format("Unknown exception: {}", e.what()));
+        spdlog::error("Unknown exception: {}", e.what());
         return EXIT_FAILURE;
     }
     // LCOV_EXCL_STOP
@@ -53,7 +53,7 @@ int App::run(const int argc, const char* const argv[])
 
 int App::encode(const whisp::EncodeConfig& config)
 {
-    spdlog::info(fmt::format("Running encode with config: {}", config)); // NOLINT(spdlog-use-fmt-format)
+    spdlog::info("Running encode with config: {}", config);
 
     auto image = io::readImage(config.imageFile);
     std::span imageData{image.begin(), image.end()};
@@ -71,14 +71,14 @@ int App::encode(const whisp::EncodeConfig& config)
     }
     else
     {
-        spdlog::error(fmt::format("{}", encodeResult.error())); // NOLINT(spdlog-use-fmt-format)
+        spdlog::error("{}", encodeResult.error());
         return EXIT_FAILURE;
     }
 }
 
 int App::decode(const whisp::DecodeConfig& config)
 {
-    spdlog::info(fmt::format("Running decode with config: {}", config)); // NOLINT(spdlog-use-fmt-format)
+    spdlog::info("Running decode with config: {}", config);
 
     auto image = io::readImage(config.imageFile);
     std::span span{image.begin(), image.end()};
@@ -94,7 +94,7 @@ int App::decode(const whisp::DecodeConfig& config)
     }
     else
     {
-        spdlog::error(fmt::format("{}", decodeResult.error())); // NOLINT(spdlog-use-fmt-format)
+        spdlog::error("{}", decodeResult.error());
         return EXIT_FAILURE;
     }
 }
