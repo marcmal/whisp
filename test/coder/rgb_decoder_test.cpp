@@ -1,10 +1,12 @@
-#include "coder/decode.hpp"
-#include "coder/error.hpp"
-#include "util/types.hpp"
 #include <gtest/gtest.h>
+
+import whisp.util;
+import whisp.coder;
 
 namespace whisp
 {
+using util::Byte;
+
 namespace
 {
 constexpr auto RGB_MODE = 2;
@@ -44,7 +46,7 @@ class RgbDecoderTestSuite : public testing::Test
   protected:
     auto decode() const
     {
-        return whisp::decode(span);
+        return coder::decode(span);
     }
 
     void fillEncoded(const std::vector<Byte>& bytes)

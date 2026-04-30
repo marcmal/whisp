@@ -1,13 +1,14 @@
-#include "parser/config.hpp"
 #include <fmt/format.h>
 #include <gtest/gtest.h>
+
+import whisp.parser;
 
 namespace whisp
 {
 
 TEST(ConfigTest, FormatEncodeConfig_AlphaAlgorithmConfig)
 {
-    const EncodeConfig config = EncodeConfig{"./image_file.png", "./secret_file.txt", AlphaAlgorithmConfig{}};
+    const auto config = parser::EncodeConfig{"./image_file.png", "./secret_file.txt", parser::AlphaAlgorithmConfig{}};
     const auto result = fmt::format("{}", config);
     EXPECT_EQ(result,
               "EncodeConfig { imageFile: ./image_file.png, secretFile: ./secret_file.txt, algorithmConfig: "
@@ -16,8 +17,8 @@ TEST(ConfigTest, FormatEncodeConfig_AlphaAlgorithmConfig)
 
 TEST(ConfigTest, FormatEncodeConfig_RgbAlgorithmConfig)
 {
-    const EncodeConfig config =
-        EncodeConfig{"./image_file.png", "./secret_file.txt", RgbAlgorithmConfig{.bitsPerChannel = 4}};
+    const auto config =
+        parser::EncodeConfig{"./image_file.png", "./secret_file.txt", parser::RgbAlgorithmConfig{.bitsPerChannel = 4}};
     const auto result = fmt::format("{}", config);
     EXPECT_EQ(result,
               "EncodeConfig { imageFile: ./image_file.png, secretFile: ./secret_file.txt, algorithmConfig: "
@@ -26,7 +27,7 @@ TEST(ConfigTest, FormatEncodeConfig_RgbAlgorithmConfig)
 
 TEST(ConfigTest, FormatDecodeConfig)
 {
-    const DecodeConfig config = DecodeConfig{"./image_file.png"};
+    const auto config = parser::DecodeConfig{"./image_file.png"};
     const auto result = fmt::format("{}", config);
     EXPECT_EQ(result, "DecodeConfig { imageFile: ./image_file.png }");
 }

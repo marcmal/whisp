@@ -9,6 +9,7 @@ on:
 jobs:
   build-and-test-gcc:
     runs-on: ubuntu-latest
+    container: archlinux:latest
 
     env:
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
@@ -17,15 +18,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Tools
-      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake
-
-    - name: Set g++ 14 as default
+    - name: Update and Install Tools
       run: |
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
-        gcc --version
-        g++ --version
+        # Arch containers need a keyring refresh occasionally 
+        # to verify new packages.
+        pacman -Syu --noconfirm
+        pacman -S --noconfirm base-devel gcc cmake ninja git curl zip unzip tar
+
+    - name: Verify GCC Version
+      run: g++ --version
 
     - name: Install vcpkg
       run: |

@@ -1,2 +1,9 @@
-add_library(util INTERFACE)
-target_include_directories(util INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+include(common)
+
+add_library(util)
+set_common_target_compile_properties(util)
+
+target_sources(util PUBLIC
+    FILE_SET CXX_MODULES FILES
+    util.cppm
+)

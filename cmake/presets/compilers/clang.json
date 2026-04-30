@@ -10,7 +10,7 @@
             },
             "cacheVariables": {
                 "CMAKE_CXX_FLAGS_DEBUG": "-Wall -Wextra -Wpedantic -Wshadow -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor",
-                "CMAKE_CXX_FLAGS_RELEASE": "-Werror -Wall -Wextra -Wpedantic -Wshadow -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor"
+                "CMAKE_CXX_FLAGS_RELEASE": "-Werror -Wall -Wextra -Wpedantic -Wshadow -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor -Wno-error=pch-date-time"
             }
         }
     ]

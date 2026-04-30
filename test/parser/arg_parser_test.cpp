@@ -1,9 +1,9 @@
-#include "parser/arg_parser.hpp"
-#include "parser/config.hpp"
-#include "parser/error.hpp"
 #include <cstdlib>
+#include <filesystem>
 #include <gtest/gtest.h>
 #include <variant>
+
+import whisp.parser;
 
 namespace whisp
 {
@@ -23,7 +23,7 @@ constexpr std::size_t arraySize(const T (&)[N]) noexcept
 class ArgParserTestSuite : public testing::Test
 {
   protected:
-    ArgParser objectUnderTest{};
+    parser::ArgParser objectUnderTest{};
 };
 
 TEST_F(ArgParserTestSuite, Help)
@@ -33,7 +33,7 @@ TEST_F(ArgParserTestSuite, Help)
 
     const auto result = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(result.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::Help>(result.value().config));
+    EXPECT_TRUE(std::holds_alternative<parser::Help>(result.value().config));
 }
 
 TEST_F(ArgParserTestSuite, ParseVerboseFlag)
@@ -126,12 +126,12 @@ TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsAlphaMode)
 
     const auto options = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(options.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::EncodeConfig>(options.value().config));
+    EXPECT_TRUE(std::holds_alternative<parser::EncodeConfig>(options.value().config));
 
-    const auto& encodeOptions = std::get<whisp::EncodeConfig>(options.value().config);
+    const auto& encodeOptions = std::get<parser::EncodeConfig>(options.value().config);
     EXPECT_EQ(encodeOptions.imageFile, image);
     EXPECT_EQ(encodeOptions.secretFile, filename);
-    EXPECT_TRUE(std::holds_alternative<whisp::AlphaAlgorithmConfig>(encodeOptions.algorithmConfig));
+    EXPECT_TRUE(std::holds_alternative<parser::AlphaAlgorithmConfig>(encodeOptions.algorithmConfig));
 }
 
 TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsRgbMode)
@@ -141,14 +141,14 @@ TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsRgbMode)
 
     const auto options = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(options.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::EncodeConfig>(options.value().config));
+    EXPECT_TRUE(std::holds_alternative<parser::EncodeConfig>(options.value().config));
 
-    const auto& encodeOptions = std::get<whisp::EncodeConfig>(options.value().config);
+    const auto& encodeOptions = std::get<parser::EncodeConfig>(options.value().config);
     EXPECT_EQ(encodeOptions.imageFile, image);
     EXPECT_EQ(encodeOptions.secretFile, filename);
 
-    EXPECT_TRUE(std::holds_alternative<whisp::RgbAlgorithmConfig>(encodeOptions.algorithmConfig));
-    const auto& rgbAlgorithmConfig = std::get<whisp::RgbAlgorithmConfig>(encodeOptions.algorithmConfig);
+    EXPECT_TRUE(std::holds_alternative<parser::RgbAlgorithmConfig>(encodeOptions.algorithmConfig));
+    const auto& rgbAlgorithmConfig = std::get<parser::RgbAlgorithmConfig>(encodeOptions.algorithmConfig);
     EXPECT_EQ(rgbAlgorithmConfig.bitsPerChannel, 4);
 }
 
@@ -159,9 +159,9 @@ TEST_F(ArgParserTestSuite, ParseDecodeArgsIntoOptions)
 
     const auto options = objectUnderTest.parse(argc, argv);
     ASSERT_TRUE(options.has_value());
-    EXPECT_TRUE(std::holds_alternative<whisp::DecodeConfig>(options.value().config));
+    EXPECT_TRUE(std::holds_alternative<parser::DecodeConfig>(options.value().config));
 
-    const auto& decodeOptions = std::get<whisp::DecodeConfig>(options.value().config);
+    const auto& decodeOptions = std::get<parser::DecodeConfig>(options.value().config);
     EXPECT_EQ(decodeOptions.imageFile, image);
 }
 

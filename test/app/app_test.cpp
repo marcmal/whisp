@@ -1,10 +1,11 @@
-#include "app.hpp"
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <spdlog/spdlog.h>
+
+import whisp.app;
 
 namespace whisp
 {

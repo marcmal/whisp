@@ -1,12 +1,12 @@
-
-#include "coder/coder_data.hpp"
-#include "coder/encode.hpp"
-#include "coder/error.hpp"
-#include "parser/config.hpp"
 #include <gtest/gtest.h>
+
+import whisp.util;
+import whisp.coder;
+import whisp.parser;
 
 namespace whisp
 {
+using util::Byte;
 
 namespace
 {
@@ -26,9 +26,9 @@ class RgbEncoderTestSuite : public testing::Test
   protected:
     auto encode(const auto& dataBuffer) const
     {
-        RgbAlgorithmConfig config{bitsPerChannel};
-        CoderData dataToEncode{dataBuffer, filename};
-        return whisp::encode(config, span, dataToEncode);
+        parser::RgbAlgorithmConfig config{bitsPerChannel};
+        coder::CoderData dataToEncode{dataBuffer, filename};
+        return coder::encode(config, span, dataToEncode);
     }
 
     void checkByte(Byte byte)

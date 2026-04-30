@@ -1,15 +1,39 @@
-#include "parser/arg_parser.hpp"
-#include "CLI/CLI.hpp"
-#include "parser/config.hpp"
-#include "parser/error.hpp"
-#include <expected>
-#include <iostream>
+module;
 
-namespace whisp
+#include <CLI/CLI.hpp>
+#include <expected>
+
+module whisp.parser;
+
+import :config;
+import :error;
+
+namespace whisp::parser
 {
+struct ArgParser::Impl
+{
+  public:
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
+    std::expected<Result, ParserError> parse(const int argc, const char* const argv[]);
+
+  private:
+    CLI::App app{"Whisp - image steganography tool"};
+};
+
+ArgParser::ArgParser() : pimpl(std::make_unique<ArgParser::Impl>())
+{
+}
+
+ArgParser::~ArgParser() = default;
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
-Result ArgParser::parse(const int argc, const char* const argv[])
+std::expected<Result, ParserError> ArgParser::parse(const int argc, const char* const argv[])
+{
+    return pimpl->parse(argc, argv);
+}
+
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
+std::expected<Result, ParserError> ArgParser::Impl::parse(const int argc, const char* const argv[])
 {
     app.fallthrough();
     bool verbose{};
@@ -44,7 +68,7 @@ Result ArgParser::parse(const int argc, const char* const argv[])
     }
     catch (const CLI::CallForHelp& e)
     {
-        return ParserResult{Help{app.help()}, verbose};
+        return Result{Help{app.help()}, verbose};
     }
     catch (const CLI::ParseError& e)
     {
@@ -56,18 +80,18 @@ Result ArgParser::parse(const int argc, const char* const argv[])
         if (rgbEncodeAlgorithmCommand->parsed())
         {
             encodeConfig.algorithmConfig = rgbAlgorithmConfig;
-            return ParserResult{Config{encodeConfig}, verbose};
+            return Result{Config{encodeConfig}, verbose};
         }
 
         if (alphaEncodeAlgorithmCommand->parsed())
         {
             encodeConfig.algorithmConfig = alphaAlgorithmConfig;
-            return ParserResult{Config{encodeConfig}, verbose};
+            return Result{Config{encodeConfig}, verbose};
         }
     }
     else if (decodeCommand->parsed())
     {
-        return ParserResult{Config{decodeConfig}, verbose};
+        return Result{Config{decodeConfig}, verbose};
     }
 
     // Should never happen
@@ -76,5 +100,4 @@ Result ArgParser::parse(const int argc, const char* const argv[])
     return std::unexpected(ParserError{"No valid arguments provided!"});
     // LCOV_EXCL_STOP
 }
-
 }

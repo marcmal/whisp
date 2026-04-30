@@ -1,12 +1,13 @@
-#include "coder/decode.hpp"
-#include "coder/encode.hpp"
-#include "parser/config.hpp"
-#include "util/types.hpp"
+
 #include <gtest/gtest.h>
+
+import whisp.util;
+import whisp.coder;
+import whisp.parser;
 
 namespace whisp
 {
-
+using util::Byte;
 using BitsPerChannel = int;
 
 class RgbEncoderDecoderTestSuite : public testing::TestWithParam<BitsPerChannel>
@@ -22,10 +23,10 @@ class RgbEncoderDecoderTestSuite : public testing::TestWithParam<BitsPerChannel>
         std::transform(
             expectedMessage.begin(), expectedMessage.end(), std::back_inserter(buffer), [](const auto c) { return c; });
 
-        RgbAlgorithmConfig config{bitsPerChannel};
-        CoderData dataToEncode{buffer, expectedFilename};
-        whisp::encode(config, std::span{data}, dataToEncode).value();
-        const auto [decodedData, decodedFilename] = whisp::decode(data).value();
+        parser::RgbAlgorithmConfig config{bitsPerChannel};
+        coder::CoderData dataToEncode{buffer, expectedFilename};
+        coder::encode(config, std::span{data}, dataToEncode).value();
+        const auto [decodedData, decodedFilename] = coder::decode(data).value();
 
         std::string decodedMessage{decodedData.begin(), decodedData.end()};
         EXPECT_EQ(decodedMessage, expectedMessage);

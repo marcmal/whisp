@@ -1,7 +1,8 @@
-#include "io/file_reader.hpp"
-#include "io/file_writer.hpp"
 #include <filesystem>
 #include <gtest/gtest.h>
+
+import whisp.io;
+import whisp.util;
 
 namespace whisp
 {
@@ -25,7 +26,7 @@ class ReaderWriterTest : public testing::Test
 
 TEST_F(ReaderWriterTest, WriteReadFile)
 {
-    std::vector<Byte> data;
+    std::vector<util::Byte> data;
     std::copy(content.begin(), content.end(), std::back_inserter(data));
 
     writer.write(data);

@@ -1,4 +1,4 @@
-#include "app.hpp"
+import whisp.app;
 
 int main(int argc, char* argv[])
 {

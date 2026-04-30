@@ -1,13 +1,14 @@
-#pragma once
+module;
 
 #include <filesystem>
 #include <spdlog/formatter.h>
 #include <string>
 #include <variant>
 
-namespace whisp
-{
+export module whisp.parser:config;
 
+export namespace whisp::parser
+{
 struct RgbAlgorithmConfig
 {
     int bitsPerChannel;
@@ -38,7 +39,7 @@ struct Help
 
 using Config = std::variant<EncodeConfig, DecodeConfig, Help>;
 
-struct ParserResult
+struct Result
 {
     Config config;
     bool verbose;
@@ -47,27 +48,27 @@ struct ParserResult
 }
 
 template <>
-struct fmt::formatter<whisp::RgbAlgorithmConfig> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::RgbAlgorithmConfig> : fmt::formatter<std::string>
 {
-    auto format(const whisp::RgbAlgorithmConfig& obj, format_context& ctx) const
+    auto format(const whisp::parser::RgbAlgorithmConfig& obj, format_context& ctx) const
     {
         return fmt::format_to(ctx.out(), "RgbAlgorithmConfig {{ bitsPerChannel: {} }}", obj.bitsPerChannel);
     }
 };
 
 template <>
-struct fmt::formatter<whisp::AlphaAlgorithmConfig> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::AlphaAlgorithmConfig> : fmt::formatter<std::string>
 {
-    auto format(const whisp::AlphaAlgorithmConfig&, format_context& ctx) const
+    auto format(const whisp::parser::AlphaAlgorithmConfig&, format_context& ctx) const
     {
         return fmt::format_to(ctx.out(), "AlphaAlgorithmConfig {{}}");
     }
 };
 
 template <>
-struct fmt::formatter<whisp::AlgorithmConfig> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::AlgorithmConfig> : fmt::formatter<std::string>
 {
-    auto format(const whisp::AlgorithmConfig& obj, format_context& ctx) const
+    auto format(const whisp::parser::AlgorithmConfig& obj, format_context& ctx) const
     {
         return std::visit([&ctx](const auto& val) { return format_to(ctx.out(), "AlgorithmConfig {{ {} }}", val); },
                           obj);
@@ -75,9 +76,9 @@ struct fmt::formatter<whisp::AlgorithmConfig> : fmt::formatter<std::string>
 };
 
 template <>
-struct fmt::formatter<whisp::EncodeConfig> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::EncodeConfig> : fmt::formatter<std::string>
 {
-    auto format(const whisp::EncodeConfig& obj, format_context& ctx) const
+    auto format(const whisp::parser::EncodeConfig& obj, format_context& ctx) const
     {
         return fmt::format_to(ctx.out(),
                               "EncodeConfig {{ imageFile: {}, secretFile: {}, algorithmConfig: {} }}",
@@ -88,37 +89,37 @@ struct fmt::formatter<whisp::EncodeConfig> : fmt::formatter<std::string>
 };
 
 template <>
-struct fmt::formatter<whisp::DecodeConfig> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::DecodeConfig> : fmt::formatter<std::string>
 {
-    auto format(const whisp::DecodeConfig& obj, format_context& ctx) const
+    auto format(const whisp::parser::DecodeConfig& obj, format_context& ctx) const
     {
         return fmt::format_to(ctx.out(), "DecodeConfig {{ imageFile: {} }}", obj.imageFile.string());
     }
 };
 
 template <>
-struct fmt::formatter<whisp::Help> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::Help> : fmt::formatter<std::string>
 {
-    auto format(const whisp::Help&, format_context& ctx) const
+    auto format(const whisp::parser::Help&, format_context& ctx) const
     {
         return fmt::format_to(ctx.out(), "Help {{}}");
     }
 };
 
 template <>
-struct fmt::formatter<whisp::Config> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::Config> : fmt::formatter<std::string>
 {
-    auto format(const whisp::Config& obj, format_context& ctx) const
+    auto format(const whisp::parser::Config& obj, format_context& ctx) const
     {
         return std::visit([&ctx](const auto& val) { return format_to(ctx.out(), "Config {{ {} }}", val); }, obj);
     }
 };
 
 template <>
-struct fmt::formatter<whisp::ParserResult> : fmt::formatter<std::string>
+struct fmt::formatter<whisp::parser::Result> : fmt::formatter<std::string>
 {
-    auto format(const whisp::ParserResult& obj, format_context& ctx) const
+    auto format(const whisp::parser::Result& obj, format_context& ctx) const
     {
-        return fmt::format_to(ctx.out(), "ParserResult {{ config: {}, verbose: {} }}", obj.config, obj.verbose);
+        return fmt::format_to(ctx.out(), "Result {{ config: {}, verbose: {} }}", obj.config, obj.verbose);
     }
 };

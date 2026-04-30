@@ -1,26 +1,37 @@
-#include "app.hpp"
-#include "coder/coder_data.hpp"
-#include "coder/decode.hpp"
-#include "coder/encode.hpp"
-#include "io/file_reader.hpp"
-#include "io/file_writer.hpp"
-#include "io/image_reader.hpp"
-#include "parser/arg_parser.hpp"
-#include "parser/config.hpp"
-#include "util/overload.hpp"
+module;
+
 #include <cstdlib>
+#include <iostream>
 #include <spdlog/common.h>
 #include <spdlog/spdlog.h>
+#include <variant>
 
-namespace whisp
+export module whisp.app;
+
+import whisp.util;
+import whisp.parser;
+import whisp.coder;
+import whisp.io;
+
+export namespace whisp
 {
+class App
+{
+  public:
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
+    int run(const int argc, const char* const argv[]);
+
+  private:
+    int encode(const parser::EncodeConfig& config);
+    int decode(const parser::DecodeConfig& config);
+};
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,modernize-avoid-c-arrays)
 int App::run(const int argc, const char* const argv[])
 {
     try
     {
-        const auto options = whisp::ArgParser{}.parse(argc, argv);
+        const auto options = parser::ArgParser{}.parse(argc, argv);
 
         if (options.has_value())
         {
@@ -28,9 +39,9 @@ int App::run(const int argc, const char* const argv[])
             {
                 spdlog::set_level(spdlog::level::debug);
             }
-            return std::visit(overload{[this](const whisp::EncodeConfig& config) { return encode(config); },
-                                       [this](const whisp::DecodeConfig& config) { return decode(config); },
-                                       [](const whisp::Help& help) {
+            return std::visit(overload{[this](const parser::EncodeConfig& config) { return encode(config); },
+                                       [this](const parser::DecodeConfig& config) { return decode(config); },
+                                       [](const parser::Help& help) {
                                            std::cout << help.message;
                                            return EXIT_SUCCESS;
                                        }},
@@ -51,21 +62,20 @@ int App::run(const int argc, const char* const argv[])
     // LCOV_EXCL_STOP
 }
 
-int App::encode(const whisp::EncodeConfig& config)
+int App::encode(const parser::EncodeConfig& config)
 {
     spdlog::info("Running encode with config: {}", config);
 
-    auto image = io::readImage(config.imageFile);
-    std::span imageData{image.begin(), image.end()};
+    auto imageData = io::readImage(config.imageFile);
 
     io::FileReader fileReader{config.secretFile};
-    CoderData dataToEncode{fileReader.read(), config.secretFile};
-    const auto encodeResult = whisp::encode(config.algorithmConfig, imageData, dataToEncode);
+    coder::CoderData dataToEncode{fileReader.read(), config.secretFile};
+    const auto encodeResult = coder::encode(config.algorithmConfig, std::span{imageData.pixels}, dataToEncode);
 
     if (encodeResult.has_value())
     {
-        const auto outputImage = config.imageFile.parent_path() /= ("encoded_" + config.imageFile.filename().string());
-        image.save(outputImage.c_str());
+        const auto outputPath = config.imageFile.parent_path() /= ("encoded_" + config.imageFile.filename().string());
+        io::saveImage(imageData, outputPath);
 
         return EXIT_SUCCESS;
     }
@@ -76,19 +86,19 @@ int App::encode(const whisp::EncodeConfig& config)
     }
 }
 
-int App::decode(const whisp::DecodeConfig& config)
+int App::decode(const parser::DecodeConfig& config)
 {
     spdlog::info("Running decode with config: {}", config);
 
     auto image = io::readImage(config.imageFile);
-    std::span span{image.begin(), image.end()};
+    std::span imageData{image.pixels};
 
-    const auto decodeResult = whisp::decode(span);
+    const auto decodeResult = coder::decode(imageData);
     if (decodeResult.has_value())
     {
         const auto [data, filename] = decodeResult.value();
-        const auto outputFile = config.imageFile.parent_path() /= filename;
-        io::FileWriter fileWriter{outputFile};
+        const auto outputPath = config.imageFile.parent_path() /= filename;
+        io::FileWriter fileWriter{outputPath};
         fileWriter.write(data);
         return EXIT_SUCCESS;
     }

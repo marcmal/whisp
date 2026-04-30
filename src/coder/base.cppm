@@ -1,16 +1,17 @@
-#pragma once
+module;
 
-#include "coder/result.hpp"
-#include "constants.hpp"
-#include "util/types.hpp"
+#include <cstdint>
 #include <expected>
 #include <span>
 #include <string>
 #include <vector>
 
-namespace whisp
-{
+export module whisp.coder:base;
+import :types;
+import whisp.util;
 
+namespace whisp::coder
+{
 class Encoder
 {
   public:
@@ -56,6 +57,34 @@ class Encoder
     {
         return NUM_BYTES_LENGTH_ENCODED + filename.size() + NUM_BYTES_LENGTH_ENCODED + buffer.size();
     }
+};
+
+class Decoder
+{
+  public:
+    virtual ~Decoder() = default;
+
+    DecodeResult decode()
+    {
+        try
+        {
+            const auto filenameLength = decodeLength();
+            const auto filename = decodeData(filenameLength);
+
+            const auto dataLength = decodeLength();
+            const auto decodedData = decodeData(dataLength);
+            return CoderData{decodedData, std::string{filename.begin(), filename.end()}};
+        }
+        catch (const DecodeException& e)
+        {
+            return std::unexpected(e.cause);
+        }
+    }
+
+  protected:
+    virtual std::size_t decodeLength() = 0;
+    virtual std::vector<Byte> decodeData(std::size_t length) = 0;
+    virtual Byte decodeByte() = 0;
 };
 
 }
