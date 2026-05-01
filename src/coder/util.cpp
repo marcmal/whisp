@@ -2,7 +2,7 @@ module;
 
 #include <cstdint>
 
-export module whisp.coder:util;
+module whisp.coder:util;
 import whisp.util;
 
 namespace whisp::coder

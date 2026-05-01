@@ -6,7 +6,7 @@ module;
 #include <string>
 #include <vector>
 
-export module whisp.coder:base;
+module whisp.coder:base;
 import :types;
 import whisp.util;
 

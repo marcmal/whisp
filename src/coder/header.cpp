@@ -5,7 +5,7 @@ module;
 #include <span>
 #include <variant>
 
-export module whisp.coder:header;
+module whisp.coder:header;
 import :util;
 import :types;
 

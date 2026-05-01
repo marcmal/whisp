@@ -3,7 +3,7 @@ module;
 #include <span>
 #include <vector>
 
-export module whisp.coder:rgb;
+module whisp.coder:rgb;
 import :base;
 import :util;
 

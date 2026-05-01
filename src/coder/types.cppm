@@ -2,6 +2,7 @@ module;
 
 #include <expected>
 #include <spdlog/formatter.h>
+
 import whisp.util;
 
 export module whisp.coder:types;

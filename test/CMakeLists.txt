@@ -9,14 +9,18 @@ setup_sanitizers(parser_test)
 target_link_libraries(parser_test PRIVATE parser GTest::GTest GTest::gtest_main)
 add_test(NAME ParserTest COMMAND parser_test)
 
-add_executable(coder_test coder/rgb_encoder_test.cpp
+add_executable(coder_test)
+target_sources(coder_test
+    PRIVATE
+    coder/rgb_encoder_test.cpp
     coder/rgb_decoder_test.cpp
     coder/rgb_encoder_decoder_test.cpp
     coder/alpha_encoder_test.cpp
     coder/alpha_decoder_test.cpp
     coder/alpha_encoder_decoder_test.cpp
     coder/header_decoder_test.cpp
-    coder/error_test.cpp)
+    coder/error_test.cpp
+)
 set_common_target_compile_properties(coder_test)
 setup_sanitizers(coder_test)
 target_link_libraries(coder_test PRIVATE coder GTest::GTest GTest::gtest_main)

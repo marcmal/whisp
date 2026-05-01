@@ -4,7 +4,7 @@ module;
 #include <span>
 #include <vector>
 
-export module whisp.coder:alpha;
+module whisp.coder:alpha;
 import :base;
 
 namespace whisp::coder

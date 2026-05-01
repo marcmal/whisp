@@ -3,9 +3,20 @@ include(common)
 add_library(coder)
 set_common_target_compile_properties(coder)
 
-target_sources(coder PUBLIC
-    FILE_SET CXX_MODULES FILES
-    coder.cppm base.cppm types.cppm rgb.cppm alpha.cppm header.cppm util.cppm
+target_sources(coder
+    PRIVATE coder.cpp
+
+    PUBLIC FILE_SET CXX_MODULES FILES
+    coder.cppm
+    types.cppm
+
+    # Currently, CMake requires all module implementation partition units to be listed in CXX_MODULES FILES
+    # https://gitlab.kitware.com/cmake/cmake/-/work_items/27048
+    alpha.cpp
+    base.cpp
+    header.cpp
+    rgb.cpp
+    util.cpp
 )
 
 find_package(spdlog CONFIG REQUIRED)
