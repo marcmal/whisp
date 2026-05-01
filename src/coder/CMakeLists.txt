@@ -16,7 +16,6 @@ target_sources(coder
     base.cpp
     header.cpp
     rgb.cpp
-    util.cpp
 )
 
 find_package(spdlog CONFIG REQUIRED)

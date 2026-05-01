@@ -1,14 +1,20 @@
 module;
 
+#include <cstdint>
 #include <span>
 #include <vector>
 
 module whisp.coder:rgb;
 import :base;
-import :util;
 
 namespace whisp::coder
 {
+auto createMask(const int numBits)
+{
+    const std::uint8_t mask = (1 << numBits) - 1;
+    return util::Byte{mask};
+}
+
 class RgbEncoder : public Encoder
 {
   public:

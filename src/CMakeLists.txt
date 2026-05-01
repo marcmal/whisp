@@ -8,8 +8,10 @@ add_subdirectory(util)
 add_library(app)
 set_common_target_compile_properties(app)
 
-target_sources(app PUBLIC
-    FILE_SET CXX_MODULES FILES
+target_sources(app
+    PRIVATE app.cpp
+
+    PUBLIC FILE_SET CXX_MODULES FILES
     app.cppm
 )
 

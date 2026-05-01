@@ -16,34 +16,36 @@ namespace whisp::coder
 
 auto createHeader(const parser::AlgorithmConfig& algorithmConfig)
 {
-    return std::visit(overload{[](const parser::AlphaAlgorithmConfig&) { return coder::Header::createAlpha(); },
-                               [](const parser::RgbAlgorithmConfig& config) {
-                                   return coder::Header::createRgb(config.bitsPerChannel);
-                               }},
+    return std::visit(util::overload{[](const parser::AlphaAlgorithmConfig&) { return coder::Header::createAlpha(); },
+                                     [](const parser::RgbAlgorithmConfig& config) {
+                                         return coder::Header::createRgb(config.bitsPerChannel);
+                                     }},
                       algorithmConfig);
 }
 
 std::unique_ptr<coder::Encoder> createEncoder(const parser::AlgorithmConfig& algorithmConfig, std::span<Byte> buffer)
 {
-    auto result = std::visit(overload{[&](const parser::AlphaAlgorithmConfig&) -> std::unique_ptr<coder::Encoder> {
-                                          return std::make_unique<coder::AlphaEncoder>(buffer);
-                                      },
-                                      [&](const parser::RgbAlgorithmConfig& config) -> std::unique_ptr<coder::Encoder> {
-                                          return std::make_unique<coder::RgbEncoder>(buffer, config.bitsPerChannel);
-                                      }},
-                             algorithmConfig);
+    auto result =
+        std::visit(util::overload{[&](const parser::AlphaAlgorithmConfig&) -> std::unique_ptr<coder::Encoder> {
+                                      return std::make_unique<coder::AlphaEncoder>(buffer);
+                                  },
+                                  [&](const parser::RgbAlgorithmConfig& config) -> std::unique_ptr<coder::Encoder> {
+                                      return std::make_unique<coder::RgbEncoder>(buffer, config.bitsPerChannel);
+                                  }},
+                   algorithmConfig);
     return result;
 }
 
 std::unique_ptr<coder::Decoder> createDecoder(const coder::Header& header, std::span<Byte> buffer)
 {
-    auto result = std::visit(overload{[&](const coder::AlphaAlgorithmHeader&) -> std::unique_ptr<coder::Decoder> {
-                                          return std::make_unique<coder::AlphaDecoder>(buffer);
-                                      },
-                                      [&](const coder::RgbAlgorithmHeader& config) -> std::unique_ptr<coder::Decoder> {
-                                          return std::make_unique<coder::RgbDecoder>(buffer, config.bitsPerChannel);
-                                      }},
-                             header.header);
+    auto result =
+        std::visit(util::overload{[&](const coder::AlphaAlgorithmHeader&) -> std::unique_ptr<coder::Decoder> {
+                                      return std::make_unique<coder::AlphaDecoder>(buffer);
+                                  },
+                                  [&](const coder::RgbAlgorithmHeader& config) -> std::unique_ptr<coder::Decoder> {
+                                      return std::make_unique<coder::RgbDecoder>(buffer, config.bitsPerChannel);
+                                  }},
+                   header.header);
     return result;
 }
 

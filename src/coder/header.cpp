@@ -6,8 +6,8 @@ module;
 #include <variant>
 
 module whisp.coder:header;
-import :util;
 import :types;
+import whisp.util;
 
 namespace
 {
@@ -45,7 +45,7 @@ struct Header
 
     std::size_t size() const
     {
-        return std::visit(overload{
+        return std::visit(util::overload{
                               [](const AlphaAlgorithmHeader&) { return 1; },
                               [](const RgbAlgorithmHeader&) { return 2; },
                           },
@@ -63,11 +63,11 @@ void encodeAlgorithmMode(const int mode, std::span<Byte> buffer)
 
 void encodeAlgorithmHeader(const AlgorithmHeader& header, std::span<Byte> buffer)
 {
-    std::visit(overload{[](const AlphaAlgorithmHeader&) {},
-                        [&buffer](const RgbAlgorithmHeader& config) {
-                            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
-                            buffer[ALPHA_INDEX + BYTES_PER_PIXEL] = config.bitsPerChannel;
-                        }},
+    std::visit(util::overload{[](const AlphaAlgorithmHeader&) {},
+                              [&buffer](const RgbAlgorithmHeader& config) {
+                                  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+                                  buffer[ALPHA_INDEX + BYTES_PER_PIXEL] = config.bitsPerChannel;
+                              }},
                header);
 }
 

@@ -1,7 +1,7 @@
 module;
 
 #include "cimg_wrapper.hpp"
-#include <string>
+#include <filesystem>
 #include <vector>
 
 export module whisp.io:image_reader;
@@ -14,7 +14,7 @@ struct ImageData
     int width, height, channels, depth;
 };
 
-ImageData readImage(const std::string& path)
+inline ImageData readImage(const std::filesystem::path& path)
 {
     cimg_library::CImg<unsigned char> image(path.c_str());
     const int w = image.width();
@@ -38,7 +38,7 @@ ImageData readImage(const std::string& path)
     return data;
 }
 
-void saveImage(const ImageData& data, const std::string& path)
+inline void saveImage(const ImageData& data, const std::filesystem::path& path)
 {
     cimg_library::CImg<unsigned char> image(data.width, data.height, 1, data.channels);
     std::copy(data.pixels.begin(), data.pixels.end(), image.begin());
