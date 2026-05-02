@@ -1,5 +1,3 @@
-module;
-
 export module whisp.io;
 
 export import :reader;

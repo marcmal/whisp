@@ -49,8 +49,8 @@ std::expected<Result, ParserError> ArgParser::Impl::parse(const int argc, const 
     encodeCommand->add_option("--secret-file", encodeConfig.secretFile, "Path to data file to be hidden.")->required();
     encodeCommand->require_subcommand(1);
 
-    RgbAlgorithmConfig rgbAlgorithmConfig{};
-    AlphaAlgorithmConfig alphaAlgorithmConfig{};
+    algorithm::RgbConfig rgbAlgorithmConfig{};
+    algorithm::AlphaConfig alphaAlgorithmConfig{};
     auto* rgbEncodeAlgorithmCommand = encodeCommand->add_subcommand("rgb", "RGB encoding algorithm");
     rgbEncodeAlgorithmCommand
         ->add_option("--bits", rgbAlgorithmConfig.bitsPerChannel, "Number of bits to be used per channel.")

@@ -26,7 +26,7 @@ class RgbEncoderTestSuite : public testing::Test
   protected:
     auto encode(const auto& dataBuffer) const
     {
-        parser::RgbAlgorithmConfig config{bitsPerChannel};
+        algorithm::RgbConfig config{bitsPerChannel};
         coder::CoderData dataToEncode{dataBuffer, filename};
         return coder::encode(config, span, dataToEncode);
     }

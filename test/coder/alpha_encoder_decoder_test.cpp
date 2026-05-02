@@ -21,7 +21,7 @@ class AlphaEncoderDecoderTestSuite : public testing::Test
         std::transform(
             expectedMessage.begin(), expectedMessage.end(), std::back_inserter(buffer), [](const auto c) { return c; });
 
-        parser::AlphaAlgorithmConfig config{};
+        algorithm::AlphaConfig config{};
         coder::CoderData dataToEncode{buffer, expectedFilename};
         coder::encode(config, std::span{data}, dataToEncode).value();
         const auto [decodedData, decodedFilename] = coder::decode(data).value();

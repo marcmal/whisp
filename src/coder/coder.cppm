@@ -5,14 +5,15 @@ module;
 export module whisp.coder;
 
 export import :types;
+export import :error;
 import whisp.util;
-import whisp.parser;
+import whisp.types;
 
 namespace whisp::coder
 {
 using whisp::util::Byte;
 
-export EncodeResult encode(const parser::AlgorithmConfig& algorithmConfig,
+export EncodeResult encode(const algorithm::Config& algorithmConfig,
                            std::span<Byte> buffer,
                            const CoderData& coderData);
 

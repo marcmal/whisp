@@ -1,7 +1,8 @@
 find_package(GTest REQUIRED)
 include(common)
 
-add_executable(parser_test parser/arg_parser_test.cpp
+add_executable(parser_test
+    parser/parser_test.cpp
     parser/error_test.cpp
     parser/config_test.cpp)
 set_common_target_compile_properties(parser_test)
@@ -23,14 +24,20 @@ target_sources(coder_test
 )
 set_common_target_compile_properties(coder_test)
 setup_sanitizers(coder_test)
-target_link_libraries(coder_test PRIVATE coder GTest::GTest GTest::gtest_main)
+target_link_libraries(coder_test PRIVATE coder parser GTest::GTest GTest::gtest_main)
 add_test(NAME CoderTest COMMAND coder_test)
 
-add_executable(io_test io/file_reader_writer_test.cpp)
+add_executable(io_test io/reader_writer_test.cpp)
 set_common_target_compile_properties(io_test)
 setup_sanitizers(io_test)
 target_link_libraries(io_test PRIVATE io GTest::GTest GTest::gtest_main)
 add_test(NAME IOTest COMMAND io_test)
+
+add_executable(types_test types/algorithm_test.cpp)
+set_common_target_compile_properties(types_test)
+setup_sanitizers(types_test)
+target_link_libraries(types_test PRIVATE types GTest::GTest GTest::gtest_main)
+add_test(NAME TypesTest COMMAND types_test)
 
 add_executable(app_test app/app_test.cpp)
 set_common_target_compile_properties(app_test)
@@ -39,8 +46,8 @@ find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(app_test PRIVATE app GTest::GTest spdlog::spdlog)
 add_test(NAME AppTest COMMAND app_test ${CMAKE_CURRENT_SOURCE_DIR}/app)
 
-set(TEST_TARGETS parser_test coder_test io_test app_test)
-set(LIB_TARGETS parser coder io app)
+set(TEST_TARGETS parser_test coder_test io_test types_test app_test)
+set(LIB_TARGETS parser coder io types app)
 add_custom_target(tests DEPENDS ${TEST_TARGETS})
 
 if(COVERAGE_ENABLE)

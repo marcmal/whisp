@@ -11,7 +11,7 @@ target_sources(parser PUBLIC
 find_package(CLI11 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
-target_link_libraries(parser PUBLIC CLI11::CLI11 util spdlog::spdlog)
+target_link_libraries(parser PUBLIC CLI11::CLI11 util types spdlog::spdlog)
 
 setup_clang_tidy(parser)
 setup_sanitizers(parser)

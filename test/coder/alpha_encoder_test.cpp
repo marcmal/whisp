@@ -26,7 +26,7 @@ class AlphaEncoderTestSuite : public testing::Test
   protected:
     auto encode(const auto& dataBuffer) const
     {
-        parser::AlphaAlgorithmConfig config{};
+        algorithm::AlphaConfig config{};
         coder::CoderData dataToEncode{dataBuffer, filename};
         return coder::encode(config, span, dataToEncode);
     }

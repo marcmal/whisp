@@ -23,7 +23,7 @@ class RgbEncoderDecoderTestSuite : public testing::TestWithParam<BitsPerChannel>
         std::transform(
             expectedMessage.begin(), expectedMessage.end(), std::back_inserter(buffer), [](const auto c) { return c; });
 
-        parser::RgbAlgorithmConfig config{bitsPerChannel};
+        algorithm::RgbConfig config{bitsPerChannel};
         coder::CoderData dataToEncode{buffer, expectedFilename};
         coder::encode(config, std::span{data}, dataToEncode).value();
         const auto [decodedData, decodedFilename] = coder::decode(data).value();

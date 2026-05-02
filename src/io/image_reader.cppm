@@ -14,7 +14,7 @@ struct ImageData
     int width, height, channels, depth;
 };
 
-inline ImageData readImage(const std::filesystem::path& path)
+ImageData readImage(const std::filesystem::path& path)
 {
     cimg_library::CImg<unsigned char> image(path.c_str());
     const int w = image.width();
@@ -38,7 +38,7 @@ inline ImageData readImage(const std::filesystem::path& path)
     return data;
 }
 
-inline void saveImage(const ImageData& data, const std::filesystem::path& path)
+void saveImage(const ImageData& data, const std::filesystem::path& path)
 {
     cimg_library::CImg<unsigned char> image(data.width, data.height, 1, data.channels);
     std::copy(data.pixels.begin(), data.pixels.end(), image.begin());

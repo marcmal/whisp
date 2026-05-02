@@ -131,7 +131,7 @@ TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsAlphaMode)
     const auto& encodeOptions = std::get<parser::EncodeConfig>(options.value().config);
     EXPECT_EQ(encodeOptions.imageFile, image);
     EXPECT_EQ(encodeOptions.secretFile, filename);
-    EXPECT_TRUE(std::holds_alternative<parser::AlphaAlgorithmConfig>(encodeOptions.algorithmConfig));
+    EXPECT_TRUE(std::holds_alternative<algorithm::AlphaConfig>(encodeOptions.algorithmConfig));
 }
 
 TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsRgbMode)
@@ -147,8 +147,8 @@ TEST_F(ArgParserTestSuite, ParseEncodeArgsIntoOptionsRgbMode)
     EXPECT_EQ(encodeOptions.imageFile, image);
     EXPECT_EQ(encodeOptions.secretFile, filename);
 
-    EXPECT_TRUE(std::holds_alternative<parser::RgbAlgorithmConfig>(encodeOptions.algorithmConfig));
-    const auto& rgbAlgorithmConfig = std::get<parser::RgbAlgorithmConfig>(encodeOptions.algorithmConfig);
+    EXPECT_TRUE(std::holds_alternative<algorithm::RgbConfig>(encodeOptions.algorithmConfig));
+    const auto& rgbAlgorithmConfig = std::get<algorithm::RgbConfig>(encodeOptions.algorithmConfig);
     EXPECT_EQ(rgbAlgorithmConfig.bitsPerChannel, 4);
 }
 

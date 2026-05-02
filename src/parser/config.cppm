@@ -7,24 +7,16 @@ module;
 
 export module whisp.parser:config;
 
+export import whisp.types;
+
 export namespace whisp::parser
 {
-struct RgbAlgorithmConfig
-{
-    int bitsPerChannel;
-};
-
-struct AlphaAlgorithmConfig
-{
-};
-
-using AlgorithmConfig = std::variant<RgbAlgorithmConfig, AlphaAlgorithmConfig>;
 
 struct EncodeConfig
 {
     std::filesystem::path imageFile;
     std::filesystem::path secretFile;
-    AlgorithmConfig algorithmConfig;
+    algorithm::Config algorithmConfig;
 };
 
 struct DecodeConfig
@@ -46,34 +38,6 @@ struct Result
 };
 
 }
-
-template <>
-struct fmt::formatter<whisp::parser::RgbAlgorithmConfig> : fmt::formatter<std::string>
-{
-    auto format(const whisp::parser::RgbAlgorithmConfig& obj, format_context& ctx) const
-    {
-        return fmt::format_to(ctx.out(), "RgbAlgorithmConfig {{ bitsPerChannel: {} }}", obj.bitsPerChannel);
-    }
-};
-
-template <>
-struct fmt::formatter<whisp::parser::AlphaAlgorithmConfig> : fmt::formatter<std::string>
-{
-    auto format(const whisp::parser::AlphaAlgorithmConfig&, format_context& ctx) const
-    {
-        return fmt::format_to(ctx.out(), "AlphaAlgorithmConfig {{}}");
-    }
-};
-
-template <>
-struct fmt::formatter<whisp::parser::AlgorithmConfig> : fmt::formatter<std::string>
-{
-    auto format(const whisp::parser::AlgorithmConfig& obj, format_context& ctx) const
-    {
-        return std::visit([&ctx](const auto& val) { return format_to(ctx.out(), "AlgorithmConfig {{ {} }}", val); },
-                          obj);
-    }
-};
 
 template <>
 struct fmt::formatter<whisp::parser::EncodeConfig> : fmt::formatter<std::string>

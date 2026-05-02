@@ -8,6 +8,7 @@ target_sources(coder
 
     PUBLIC FILE_SET CXX_MODULES FILES
     coder.cppm
+    error.cppm
     types.cppm
 
     # Currently, CMake requires all module implementation partition units to be listed in CXX_MODULES FILES
@@ -20,7 +21,7 @@ target_sources(coder
 
 find_package(spdlog CONFIG REQUIRED)
 
-target_link_libraries(coder PUBLIC parser)
+target_link_libraries(coder PUBLIC types util)
 target_link_libraries(coder PRIVATE spdlog::spdlog)
 
 setup_clang_tidy(coder)

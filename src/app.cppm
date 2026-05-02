@@ -1,5 +1,3 @@
-module;
-
 export module whisp.app;
 
 import whisp.parser;

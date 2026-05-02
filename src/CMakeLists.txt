@@ -1,5 +1,6 @@
 include(common)
 
+add_subdirectory(types)
 add_subdirectory(coder)
 add_subdirectory(parser)
 add_subdirectory(io)

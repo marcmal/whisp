@@ -28,11 +28,11 @@ int App::run(const int argc, const char* const argv[])
                 spdlog::set_level(spdlog::level::debug);
             }
             return std::visit(util::overload{[this](const parser::EncodeConfig& config) { return encode(config); },
-                                       [this](const parser::DecodeConfig& config) { return decode(config); },
-                                       [](const parser::Help& help) {
-                                           std::cout << help.message;
-                                           return EXIT_SUCCESS;
-                                       }},
+                                             [this](const parser::DecodeConfig& config) { return decode(config); },
+                                             [](const parser::Help& help) {
+                                                 std::cout << help.message;
+                                                 return EXIT_SUCCESS;
+                                             }},
                               options->config);
         }
         else
